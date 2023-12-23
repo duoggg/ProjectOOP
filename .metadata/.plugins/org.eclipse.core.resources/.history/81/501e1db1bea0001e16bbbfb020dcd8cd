@@ -1,0 +1,11 @@
+package crawl;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+
+public interface ICrawler {
+	
+	private WebDriver driver ;
+	public void saveAsJsonString() ;
+	
+}

@@ -1,0 +1,67 @@
+package application.model.database;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+import application.model.BlogModel;
+import application.model.TwitterModel;
+
+
+public class BlogDB extends DBContext implements IPostDB<BlogModel> {
+
+	@Override
+	public List<BlogModel> getAllPost() {
+		 List<BlogDB> list = new ArrayList<>();
+		 try {
+			   Statement stmt=connection.createStatement();
+			   System.out.println("added");
+			   String sql=("SELECT * FROM blog ORDER BY date LIMIT 50;");		   
+		       ResultSet rs = stmt.executeQuery(sql);
+		       while (rs.next()) {
+		    	   String acount = rs.getString("acount");			
+		            String date = rs.getString("date");				
+		            String hashtag = rs.getString("hashtag") ;		
+		            String imageURL = rs.getString("imageUrl");		
+		            String postURL = rs.getString("postlUrl");		
+		            String title = rs.getString("title");					
+		            String describe = rs.getString("describe");					
+		            TwitterModel c = new TwitterModel(acount,date,hashtag,postURL,imageURL,views,likes);
+		            list.add(c);
+		        }
+
+		       // connection.close();
+		   }
+		  catch(SQLException e) {
+			   System.out.println(e);
+		  } 
+		 return list;
+	}
+
+	@Override
+	public List<BlogModel> getPostIn24H() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<BlogModel> getPostIn1W() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<BlogModel> getPostIn1M() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<BlogModel> getPostInDayAgo(int dayAgo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

@@ -1,0 +1,21 @@
+package application.model;
+
+public abstract class APostModel {		
+	private String author ;
+	private String date ;
+	private String tags ;
+	private String postlUrl ;
+	private String imageUrl;
+	
+	public String getTags() {
+		
+	};
+	public APostModel(String author, String date , String tags , String postUrl , String imageUrl) {
+		this.author		= author ;
+		this.date 		= date	 ;
+		this.tags		= tags	 ;
+		this.postlUrl 	= postUrl;
+		this.imageUrl	= imageUrl;
+	}
+	
+}

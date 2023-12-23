@@ -1,0 +1,15 @@
+package application.controller;
+
+import java.awt.Label;
+
+import javafx.fxml.FXML;
+import javafx.scene.layout.VBox;
+
+public abstract class MyController  {
+	
+	private VBox root;
+	private Label header;
+	public abstract VBox getRoot() ;
+	public abstract MyController(String header);
+	public abstract void loadView() ;
+}

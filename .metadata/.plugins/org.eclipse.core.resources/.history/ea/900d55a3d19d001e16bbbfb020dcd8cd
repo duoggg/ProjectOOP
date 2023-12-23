@@ -1,0 +1,9 @@
+package application.model;
+
+public abstract class APostModel {
+		
+	private String author ;
+	private String date ;
+	private String tag ;
+	
+}

@@ -1,0 +1,14 @@
+package application.model.database;
+
+import java.util.List;
+
+import application.model.AMarketModel;
+import application.model.APostModel;
+
+public interface IMarketDB <T extends AMarketModel> {
+	public  List<T> getAllPost();
+	public  List<T> getPostByDay() ;
+	public  List<T> getPostByWeek();
+	public  List<T> getPostByMonth() ;
+	public void insertPost() ;
+}

@@ -1,0 +1,14 @@
+package application.service;
+
+import application.controller.AMyController;
+import crawl.crawler.AMyCrawler;
+
+public class CrawlService {
+	
+	private AMyCrawler crawl ;
+	
+	public CrawlService(AMyCrawler crawl) {
+		crawl.crawl();
+	}
+	
+}

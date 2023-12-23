@@ -1,0 +1,17 @@
+package application.ultility;
+
+import java.io.IOException;
+
+import javafx.fxml.FXMLLoader;
+
+public class View {
+	public void loadView(String url , Object a) {
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource(url));
+		fxmlLoader.setController(this);
+	      try {
+	          root = fxmlLoader.load();
+	      } catch (IOException e) {
+	    	  e.printStackTrace();
+	      }
+	}
+}

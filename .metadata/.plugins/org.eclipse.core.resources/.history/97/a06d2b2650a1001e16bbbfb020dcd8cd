@@ -1,0 +1,13 @@
+package application.model.database;
+
+import java.util.List;
+
+import application.model.AMarketModel;
+
+
+public interface IMarketDB <T extends AMarketModel> {
+	
+	public  List<T> getAllColectionInDayAgo (int dayAgo) ;
+	public  List<T> getCollectionByNameInDayAgo (String name , int day);
+	
+}

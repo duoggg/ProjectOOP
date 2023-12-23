@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox fx:id="itemList" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="883.0" styleClass="itemList" stylesheets="@style.css">
+         <children>
+            <Pane layoutX="63.0" layoutY="34.0" prefHeight="64.0" prefWidth="64.0" styleClass="item_ava" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="24.0">
+               <children>
+                  <ImageView fx:id="item_img" fitHeight="32.5" fitWidth="40.0" layoutX="12.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assets/Twitter_Logo.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
+            <Text fx:id="Text1" layoutX="135.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="#helloworld" AnchorPane.bottomAnchor="39.0" AnchorPane.leftAnchor="130.0" AnchorPane.topAnchor="43.0">
+               <font>
+                  <Font name="Montserrat SemiBold" size="24.0" />
+               </font>
+            </Text>
+            <Text fx:id="Text2" layoutX="454.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="234" AnchorPane.rightAnchor="313.0">
+               <font>
+                  <Font name="Montserrat SemiBold" size="24.0" />
+               </font>
+            </Text>
+            <Text fx:id="Text3" layoutX="708.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1" AnchorPane.rightAnchor="100.0">
+               <font>
+                  <Font name="Montserrat SemiBold" size="24.0" />
+               </font>
+            </Text>
+            <VBox fx:id="postDetail" layoutY="110.0" prefHeight="0.0" prefWidth="883.0" />
+            
+         </children>
+      </AnchorPane>
+   </children>
+   <padding>
+      <Insets top="12.0" />
+   </padding>
+</VBox>

@@ -1,0 +1,18 @@
+package application.model;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class BlogModel extends BBlog {
+	
+	@Override
+	public List<String> tagList() {
+		List<String> list = new ArrayList<String>();
+		String stringTag = super.getTags() ;
+		String[] tags = stringTag.split("\\s+");
+		for (String tag : tags) list.add(tag) ;
+		return list;
+	}
+	
+	
+}

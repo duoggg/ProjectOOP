@@ -1,0 +1,165 @@
+package crawl;
+
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import com.google.gson.Gson;
+import application.model.TwitterModel;
+
+
+public class TwitterCrawler extends APostCrawler<TwitterModel>{
+	
+	private static final String     URL       = "https://twitter.com/login" ;
+	private static final String     JSON_PATH = "tweet.json" ;
+	private List<TwitterModel>      listPost  = new ArrayList<TwitterModel>();
+	private WebDriverWait wait  ;
+	
+	public TwitterCrawler (AMyDriverContext myDriver) {
+		this.driver = myDriver.getDriver() ;
+	}
+		
+	@Override
+	public void crawl() {
+		String query = "#nft";	
+		
+		try {
+			driver.get(URL);
+	        driver.manage().window().maximize();
+	        driver.manage().deleteAllCookies();
+	        driver.manage().timeouts().pageLoadTimeout(40, TimeUnit.SECONDS);
+	        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+			driver.findElement(By.xpath("//input[@name='text']")).sendKeys("Doraemo29925335");
+			driver.findElement(By.xpath("//span[contains(text(),'Next')]")).click();
+			Thread.sleep(1000);
+			driver.findElement(By.xpath("//input[@name='password']")).sendKeys("03102003");
+			Thread.sleep(1000);
+			driver.findElement(By.xpath("//span[contains(text(),'Log in')]")).click();
+			Thread.sleep(3000);
+			driver.findElement(By.xpath("//input[@aria-label='Search query']")).sendKeys(query);
+			Thread.sleep(1000);
+			driver.findElement(By.xpath("//input[@aria-label='Search query']")).sendKeys(Keys.ENTER);
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		wait = new WebDriverWait(driver, 50);
+		ArrayList<TwitterModel> listTweets = new ArrayList<TwitterModel>();
+		
+        while (listTweets.size() <= 5) {	
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            js.executeScript("window.scrollBy(0, 1000)");
+            try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("a[aria-label*='ago']")));
+        	TwitterModel item = getPost(null);
+        	listTweets.add(item);
+         }
+	    driver.quit();
+		listPost = listTweets.stream().distinct().collect(Collectors.toList());	
+		saveAsJsonFile();
+	}
+		
+
+	@Override
+	public void saveAsJsonFile() {
+		Gson gson = new Gson();
+        String jsonData = gson.toJson(listPost);
+		try (FileWriter file = new FileWriter(JSON_PATH)) { 
+	        file.write(jsonData);
+	        file.flush();
+		} catch (IOException  e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public TwitterModel getPost(WebElement n) {
+		String author            = getAuthor(n);
+		String date              = getDate(n);
+		String tags              = getTags(n);
+		String postUrl		     = getPostUrl(n);
+		String imageUrl          = getImageUrl(n);
+		int    likes			 = getLikes(n);	
+		int    views			 = getViews(n);	
+		TwitterModel item = new TwitterModel(author, date, tags, postUrl, imageUrl, views, likes) ;
+		return item;
+	}
+
+	@Override
+	public String getAuthor(WebElement n) {
+        WebElement usernameElement = driver.findElement(By.cssSelector("div[data-testid='User-Name'] > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > a:nth-child(1) > div:nth-child(1) > span:nth-child(1)"));
+        String acount = usernameElement.getText();
+        System.out.println("User: " + acount);
+        return acount ;
+	}
+
+	@Override
+	public String getDate(WebElement n) {
+        WebElement dateElement = driver.findElement(By.cssSelector("div[data-testid='User-Name'] > div:nth-child(2) > div:nth-child(1) > div:nth-child(3) > a:nth-child(1) > time:nth-child(1)"));
+        String  dateString = dateElement.getAttribute("datetime");
+        System.out.println("Date: " + dateString) ;
+        return dateString;
+	}
+
+	@Override
+	public String getTags(WebElement n) {      
+        WebElement hashtagElement = driver.findElement(By.cssSelector("div[data-testid='tweetText']"));
+        String[] words = hashtagElement.getText().split("\\s+");
+        String hashtagString = new String();
+        for (String word : words) {
+            if (word.contains("#")) {
+            	hashtagString += word ;
+            }
+        }
+        System.out.println("Hashtag: " + hashtagString);
+        return hashtagString ;
+	}
+
+	@Override
+	public String getPostUrl(WebElement n) {
+		WebElement postUrlElement = driver.findElement(By.cssSelector("div[data-testid='User-Name'] > div:nth-child(2) > div:nth-child(1) > div:nth-child(3) > a:nth-child(1)"));
+		System.out.println("Post URL: " + postUrlElement.getAttribute("href") );
+		return postUrlElement.getAttribute("href") ;
+	}
+
+	@Override
+	public String getImageUrl(WebElement n) {
+		  WebElement imageElement = driver.findElement(By.cssSelector("div[data-testid='tweetPhoto'] > img:nth-child(2)"));
+          String imageUrl = imageElement.getAttribute("src");
+          System.out.println("Image: " + imageUrl);
+          return imageUrl ;
+	}
+	
+	public int getViews(WebElement n) throws NumberFormatException {
+		 WebElement viewsElement = driver.findElement(By.cssSelector("a[aria-label*='views"));
+         String viewsString = viewsElement.getAttribute("aria-label");
+         viewsString = viewsString.substring(0, viewsString.indexOf(" "));
+         int views = Integer.parseInt(viewsString);
+         System.out.println("Views: " + views);
+         return views ;
+	}
+	
+	public int getLikes(WebElement n) throws NumberFormatException {
+		WebElement likesElement = driver.findElement(By.cssSelector("div[data-testid='like']"));
+        String likesString = likesElement.getAttribute("aria-label");
+        likesString = likesString.substring(0, likesString.indexOf(" "));
+        int likes = Integer.parseInt(likesString);
+        System.out.println("Views: " + likes);
+        return likes ;
+	}
+}
+

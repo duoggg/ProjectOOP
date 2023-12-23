@@ -1,0 +1,10 @@
+package application.model;
+
+
+public class BlogModel extends APostModel {
+	private String title ;
+	private String describe ;
+	
+	private String blogImage ;
+	
+}

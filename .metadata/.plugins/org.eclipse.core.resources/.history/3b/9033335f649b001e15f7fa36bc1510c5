@@ -1,0 +1,16 @@
+package application.model;
+
+public class OpenSeaModel {
+	private int sales ;
+
+	public int getSales() {
+		return sales;
+	}
+
+	public void setSales(int sales) {
+		this.sales = sales;
+	}
+	
+	
+	
+}

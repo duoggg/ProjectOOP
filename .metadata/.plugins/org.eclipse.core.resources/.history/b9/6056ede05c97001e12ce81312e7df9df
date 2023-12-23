@@ -1,0 +1,51 @@
+package ApplicationX;
+
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.Random;
+
+import javax.swing.*;
+
+import javafx.scene.image.ImageView;    
+    
+public class BoxGame  {    
+  
+	JFrame frameObj;    
+	public static final int NUM_DICE = 1;
+	ArrayList<ImageView> diceArrayList = new ArrayList<ImageView>();
+	Random random = new Random();
+	
+	public int rollDice() {return random.nextInt(6) + 1;}
+	  
+	// constructor  
+		BoxGame()  {    
+	frameObj = new JFrame();    
+	  
+	// creating 9 buttons  
+	JButton btn1 = new JButton();    
+	JButton btn2 = new JButton();    
+	JButton btn3 = new JButton();    
+	JButton btn4 = new JButton(); 
+	
+	
+
+	// adding buttons to the frame  
+	// since, we are using the parameterless constructor, therefore;   
+	// the number of columns is equal to the number of buttons we   
+	// are adding to the frame. The row count remains one.  
+	frameObj.add(btn1); frameObj.add(btn2); frameObj.add(btn3);  
+	frameObj.add(btn4);   
+	// setting the grid layout   
+	// a 3 * 3 grid is created with the horizontal gap 20   
+	// and vertical gap 25  
+	frameObj.setLayout(new GridLayout(2, 2, 20, 25));    
+	frameObj.setSize(300, 300);    
+	frameObj.setVisible(true);    
+	}  
+		
+	// main method  
+	public static void main(String argvs[])   
+	{    
+	new BoxGame();    
+	}    
+}    

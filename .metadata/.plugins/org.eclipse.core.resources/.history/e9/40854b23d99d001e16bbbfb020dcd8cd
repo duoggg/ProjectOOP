@@ -1,0 +1,40 @@
+package application.model.database;
+
+import java.util.List;
+
+import application.model.BlogModel;
+import application.model.TwitterModel;
+
+public class BlogDB extends DBContext implements IPostDB<BlogModel> {
+
+	@Override
+	public List<BlogModel> getAllPost() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<BlogModel> getPostIn24H() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<BlogModel> getPostIn1W() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<BlogModel> getPostIn1M() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<BlogModel> getPostInDayAgo(int dayAgo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

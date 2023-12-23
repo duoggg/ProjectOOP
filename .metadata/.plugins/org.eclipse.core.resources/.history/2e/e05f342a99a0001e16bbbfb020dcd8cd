@@ -1,0 +1,11 @@
+package application.controller;
+
+import javafx.scene.layout.VBox;
+
+public interface MyController  {
+
+	public abstract VBox getRoot()  ;
+	protected abstract void loadView() ;
+	private abstract void loadData() ;
+	 
+}

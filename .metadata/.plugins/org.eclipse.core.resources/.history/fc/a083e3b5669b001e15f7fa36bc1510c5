@@ -1,0 +1,31 @@
+package application.model;
+
+public class OpenSeaModel extends AMarketModel {
+	private int sales ;
+
+	public int getSales() {
+		return sales;
+	}
+
+	public void setSales(int sales) {
+		this.sales = sales;
+	}
+	
+	private int rank ;
+	private String name ;
+	private int volume ;
+	private int percentChange ;
+	private int floorPrice ;
+	private String date ;
+	public TwitterModel(String rank, String name, String volume, String percent, String floor, String date, int sale) {
+		super();
+		this.acount = acount;
+		this.date = date;
+		this.tag = tag ; 
+		this.postlUrl = postlUrl;
+		this.imageUrl = imageUrl;
+		this.views = views;
+		this.likes = likes;
+	}
+	
+}

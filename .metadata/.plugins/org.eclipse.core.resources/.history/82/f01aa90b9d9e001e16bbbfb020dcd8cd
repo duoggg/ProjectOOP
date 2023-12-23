@@ -1,0 +1,29 @@
+package application.model;
+
+public class BinanceModel  extends AMarketModel{
+	
+	private int owners ;
+	private int items ;
+	
+	public BinanceModel(int rank, String name, String volume, String percentChange, String floorPrice, String date, int owners, int items) {
+		super(rank, name, volume, percentChange, floorPrice, date);
+		this.owners = owners ;
+		this.items  = items;
+	}
+	
+	public int getOwners() 			  { return owners;}
+	public int getItems() 			  { return items; }
+
+	@Override
+	public String getVolume() {
+		 StringBuilder stringBuilder = new StringBuilder(volume);
+
+	        // Xóa 3 ký tự cuối
+	        stringBuilder.delete(stringBuilder.length() - 3, stringBuilder.length());
+
+	        // In chuỗi đã được xóa ký tự cuối
+	        System.out.println(stringBuilder.toString());
+		return null;
+	}
+		
+}

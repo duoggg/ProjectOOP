@@ -1,0 +1,71 @@
+package application.service;
+
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.document.TextField;
+import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.store.FSDirectory;
+import org.json.JSONArray;
+
+import application.model.AMarketModel;
+import application.model.APostModel;
+import application.model.database.IMarketDB;
+import application.model.database.IPostDB;
+
+public class RecommendPostService {
+	private IPostDB<?> postDB ;
+	private IMarketDB<?> marketDB;
+	private static final int NUMBEROFPLOT = 4 ;
+	private JSONArray result = new JSONArray() ;
+	
+	public RecommendPostService (IPostDB<?> postDB, IMarketDB<?> marketDB ) {
+		this.postDB = postDB ;
+		this.marketDB = marketDB ;
+	}
+	
+	public JSONArray getResult() {
+		//result = getCollectionWithNumberOfTagIn();
+		return result ;
+	}
+	
+	public JSONArray getReccomendPost(String name) throws Exception {
+		JSONArray jsonArray = new JSONArray();
+		List<String> soLieuList = new ArrayList<String>();
+		List<String> baiVietList = new ArrayList<String>();
+		List<Integer> volumeList = new ArrayList<Integer>();
+		
+		FSDirectory indexDirectory = FSDirectory.open(Paths.get("E:\\MySql\\apacelucene"));
+		IndexWriterConfig config = new IndexWriterConfig(new StandardAnalyzer());
+		IndexWriter writer = new IndexWriter(indexDirectory, config);
+		writer.deleteAll();
+		for (APostModel pos : postDB.getAllPost()) {
+		     Document doc = new Document();
+		     doc.add(new TextField("url", pos.getPostUrl(), Field.Store.YES));
+		     doc.add(new TextField("content",pos.getDetailSearch() , Field.Store.YES));
+		     writer.addDocument(doc);
+		 }
+
+		 writer.close();
+
+		for(int i = 1 ; i <= NUMBEROFPLOT ; i++) {
+			AMarketModel collection = marketDB.getCollectionInDayAgo(name, i+15) ;
+			if(collection == null) volumeList.add(0);
+			else	{ volumeList.add(collection.calVolume()) ;}
+		}
+		
+		StringBuilder queryBuilder = new StringBuilder();
+		for (int i = 1; i < volumeList.size(); i++) {
+            if      (volumeList.get(i) > volumeList.get(i-1))     queryBuilder.append("price increase ");
+            else if (volumeList.get(i) > volumeList.get(i-1))     queryBuilder.append("price decrease ");  
+        }
+		String query = queryBuilder.toString().trim();
+		
+		return jsonArray;	
+	}
+}

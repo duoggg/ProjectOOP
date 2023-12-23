@@ -1,0 +1,37 @@
+package application.controller;
+
+//import application.controller.RecycleBin.ListMoreController;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.layout.VBox;
+
+public class AnalysisController extends MyController {
+	
+	private static final String url = "application/Analysis" ;
+	@FXML
+	private VBox root;
+	@FXML
+	private VBox showArea;
+	
+	public VBox getRoot() {
+		return root ;
+	}
+	public AnalysisController() {
+		super(url)
+//		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("application/Analysis.fxml"));
+//		fxmlLoader.setController(this);
+//
+//      try {
+//          root = fxmlLoader.load();
+//      } catch (Exception exception) {
+//          throw new RuntimeException(exception);
+//      }
+	}
+	
+	@FXML
+	void searchButtonPressed(ActionEvent event) {
+//		ListMoreController item = new ListMoreController();
+//		showArea.getChildren().add(item.getRoot());
+	}
+}

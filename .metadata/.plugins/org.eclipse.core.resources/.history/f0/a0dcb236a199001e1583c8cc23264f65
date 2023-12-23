@@ -1,0 +1,30 @@
+package application.model.database;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import application.model.APostModel;
+
+public interface IPostDB <T extends APostModel> {
+
+	public  List<T> getAllPost();
+	public  List<T> getPostByDay() ;
+	public  List<T> getPostByWeek();
+	public  List<T> getPostByMonth() ;
+	public void deletePost() ;
+	public void insertPost() ;
+}
+//public interface IPostDB {
+//
+//	public <T extends APostModel> List<T> getAllPost();
+//	public <T extends APostModel> List<T> getPostByDay() ;
+//	public <T extends APostModel> List<T> getPostByWeek();
+//	public <T extends APostModel> List<T> getPostByMonth() ;
+//	public void deletePost() ;
+//	public void insertPost() ;
+//}
+//public List<APostModel>  getAllPost() ;
+//public List<APostModel> getPostByDay() ;
+//public List<APostModel> getPostByWeek();
+//public List<APostModel>  getPostByMonth() ;
+//public List<?>  getAllPost() ;

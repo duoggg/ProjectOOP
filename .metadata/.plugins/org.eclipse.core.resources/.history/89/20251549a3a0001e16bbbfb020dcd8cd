@@ -1,0 +1,12 @@
+package crawl;
+
+import java.util.List;
+
+import org.openqa.selenium.WebDriver;
+
+public abstract class ACrawler {
+	protected WebDriver driver ;
+	public ACrawler () {
+		
+	}
+}

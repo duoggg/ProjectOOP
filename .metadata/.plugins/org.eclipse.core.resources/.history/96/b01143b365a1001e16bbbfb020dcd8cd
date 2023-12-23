@@ -1,0 +1,58 @@
+package application.controller;
+
+import java.io.IOException;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.layout.VBox;
+
+public class BaseController  implements ICallUrl {
+	
+	private static final String URL = "application/Base.fxml" ;
+	@FXML
+    private VBox main;
+	
+	public VBox getRoot() {
+		return main;
+	}
+	 public BaseController() {
+		
+	}
+	 
+	@FXML
+	public void TrangChu(ActionEvent event) {
+		call("Trang chủ");
+	}
+	
+	@FXML
+	public void XemDanhSach(ActionEvent event) throws IOException {
+		call("Danh sách bài viết");
+	}
+	
+	@FXML
+	public void TimHotHashtag(ActionEvent event) throws IOException {
+		call("Tìm hashtag hot nhất");
+	}
+	
+	@FXML
+	public void PhanTich(ActionEvent event) throws IOException {
+		call("Phân tích tương quan");
+	}
+	
+	public void call(String name) {
+		switch (name) {
+		case "Trang chủ"			: call( new HomeController())		    ; break ;
+		case "Danh sách bài viết"	: call( new SeePostController())	    ; break ;
+		case "Tìm hashtag hot nhất"	: call( new HotHashtagController())	    ; break ;
+		case "Phân tích tương quan"	: call( new SeeCollectionController())	; break ;
+		default:
+			throw new IllegalArgumentException("Unexpected value: " + name);
+		}
+		
+	}
+	
+	@Override
+	public void call(MyController controller) {
+		main.getChildren().clear();
+		main.getChildren().add(controller.getRoot()); 
+	}
+}

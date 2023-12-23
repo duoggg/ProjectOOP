@@ -1,0 +1,15 @@
+package application.model;
+
+import java.util.List;
+
+import application.model.database.IAppDB;
+import application.model.database.TwitterDB;
+
+public class TwitterRepository {
+	 private List<TwitterDB>
+	 private TwitterDB db;
+	 public TwitterRepository(IAppDB db) {
+		 this.db = (TwitterDB) db ;
+	 }
+	 
+}

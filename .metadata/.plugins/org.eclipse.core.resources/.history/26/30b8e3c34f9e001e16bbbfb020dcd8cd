@@ -1,0 +1,12 @@
+package crawl;
+
+import org.openqa.selenium.By;
+
+public class ObjectRepository {
+	
+	//Lưu object với đối tượng By của Selenium
+		By usernameInput = By.xpath("//input[@name='text']");
+		By passwordInput = By.xpath("//input[@name='password']");
+		By searchInput = By.xpath("//input[@aria-label='Search query']");
+
+}

@@ -1,0 +1,66 @@
+package application.model;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import application.model.database.IPostDB;
+
+public class HotHashTagService  {
+	
+	private IPostDB<?> db ;
+	public HotHashTagService(IPostDB<?> db){
+		this.db = db ;
+	}
+	public List<String> getAll() {
+		String stringHashtag = new String();
+		for(APostModel  pos : db.getAllPost()) {
+			//strings.add(pos.toString());
+			stringHashtag += pos.getTag();
+		}
+		String[] hashtags = stringHashtag.split("#");
+		Map<String, Integer> hashtagCountMap = new HashMap<>();
+        for (String hashtag : hashtags) {
+            if (!hashtag.isEmpty()) {
+                hashtagCountMap.put(hashtag, hashtagCountMap.getOrDefault(hashtag, 0) + 1);
+            }
+        }
+        List<Map.Entry<String, Integer>> entryList = new ArrayList<>(hashtagCountMap.entrySet());
+        entryList.sort((entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue()));
+        List<String> listTag = new ArrayList<String>();
+        for (Map.Entry<String, Integer> entry : entryList) {
+        	listTag.add(entry.getKey() + "," + entry.getValue()) ;
+        }
+		return listTag;	
+	}
+	public List<String> getByDay(){
+		String stringHashtag = new String();
+		for(APostModel  pos : db.getPostByDay()) {
+			//strings.add(pos.toString());
+			stringHashtag += pos.getTag();
+		}
+		String[] hashtags = stringHashtag.split("#");
+		Map<String, Integer> hashtagCountMap = new HashMap<>();
+        for (String hashtag : hashtags) {
+            if (!hashtag.isEmpty()) {
+                hashtagCountMap.put(hashtag, hashtagCountMap.getOrDefault(hashtag, 0) + 1);
+            }
+        }
+        List<Map.Entry<String, Integer>> entryList = new ArrayList<>(hashtagCountMap.entrySet());
+        entryList.sort((entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue()));
+        List<String> listTag = new ArrayList<String>();
+        for (Map.Entry<String, Integer> entry : entryList) {
+        	listTag.add(entry.getKey() + "," + entry.getValue()) ;
+        }
+		return listTag;	
+	}
+	
+	public List<String> getByWeek(){
+		return null;	
+	}
+	
+	public List<String> getByMonth(){
+		return null;	
+	}
+	
+}

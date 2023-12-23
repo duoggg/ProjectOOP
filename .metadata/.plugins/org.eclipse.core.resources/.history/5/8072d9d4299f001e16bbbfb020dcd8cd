@@ -1,0 +1,71 @@
+package application.controller;
+
+import java.awt.Label;
+import java.io.IOException;
+
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+
+public class HomeController extends MyController implements ICallUrl {
+	
+	private static final String url = "application/HomePage.fxml" ;
+	@FXML
+	private VBox root;
+	@FXML
+	private Label header;
+	
+	public HomeController() {
+		loadView();
+	}
+	public VBox getRoot() {
+		return root ;
+	}
+	
+	@FXML
+	void showButtonPressed(ActionEvent event) {
+		AnchorPane parent = (AnchorPane) ((Button) event.getSource()).getParent();
+		for (Node child : parent.getChildren()) {
+			if (child instanceof Text) {
+				String title = ((Text) child).getText(); 
+				call(title);
+			}
+		}
+	}
+	
+	@Override
+	public void loadView() {
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource(url));
+		fxmlLoader.setController(this);
+	      try {
+	          root = fxmlLoader.load();
+	      } catch (IOException e) {
+	    	  e.printStackTrace();
+	      }
+	}
+	
+	public void call(String name) {
+		switch (name) {
+		case "Danh sách bài viết"	: call( name,  new PostListController())	; break ;
+		case "Tìm hashtag hot nhất"	: call( name,  new HotHashtagController())	; break ;
+		case "Phân tích tương quan"	: call( name,  new AnalysisController())	; break ;
+		default:
+			throw new IllegalArgumentException("Unexpected value: " + name);
+		}	
+	}
+
+	@Override
+	public void call(String name, MyController controller) {
+		
+		root.getChildren().clear();
+		//header.setText(name);
+		root.getChildren().add(controller.getRoot()); 
+		
+	}
+
+}

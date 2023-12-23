@@ -1,0 +1,49 @@
+package application.service;
+
+
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import application.model.AMarketModel;
+
+import application.model.database.IMarketDB;
+
+
+public class SeeCollectionService {
+
+	private IMarketDB<?> db;
+	private JSONArray result = new JSONArray() ;
+	
+	public SeeCollectionService(IMarketDB<?> db ){
+		this.db = db ;
+		result = this.getAllCollection();
+	}
+	
+	public  SeeCollectionService(IMarketDB<?> db , String hashTag){
+		this.db = db ;
+		result  = this.getPostByName(hashTag) ;
+	}
+	
+	public  JSONArray getAllCollection(){
+		JSONArray jsonArray = new JSONArray();
+		for(AMarketModel item : db.getAllColectionInDayAgo(1)){
+			JSONObject jsonObject = new JSONObject();
+			jsonObject.put("volume", item.getVolume());
+			jsonObject.put("rank", item.getRank());
+ 	        jsonArray.put(jsonObject);
+		}
+		return jsonArray ;
+	}
+	
+	private JSONArray getPostByName(String name){
+		JSONArray jsonArray = new JSONArray();
+		JSONObject jsonObject = new JSONObject();
+		AMarketModel item = db.getCollectionByNameInDayAgo(name,1) 	;
+		jsonObject.put("volume", item.getVolume());
+		jsonObject.put("rank", item.getRank());
+		jsonArray.put(jsonObject);
+		return jsonArray ;
+	  
+	}
+}

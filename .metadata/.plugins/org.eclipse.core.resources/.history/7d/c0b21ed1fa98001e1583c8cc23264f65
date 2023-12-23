@@ -1,0 +1,6 @@
+package application.model;
+
+public class OpenSeaModel {
+	private int rank ;
+	private String collection ;
+}

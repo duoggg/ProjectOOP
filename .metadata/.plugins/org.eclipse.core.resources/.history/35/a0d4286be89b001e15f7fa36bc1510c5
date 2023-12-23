@@ -1,0 +1,68 @@
+package application.model;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import application.model.database.IMarketDB;
+import application.model.database.IPostDB;
+
+
+public class AnalysisService {
+	private IPostDB<?> postDB ;
+	private IMarketDB<?> marketDB;
+	
+	public AnalysisService(IPostDB<?> postDB, IMarketDB<?> marketDB ) {
+		this.postDB = postDB ;
+		this.marketDB = marketDB ;
+	}
+		
+	public  List<String> getCollectionWithNumberOfTagIn(){
+		List<String> resultList = new ArrayList<String>() ;
+		for(String name : marketDB.getAllCollectionName()) {
+			String c = new String(name) ;
+			for(int i = 1 ; i <= 2 ; i++) {
+				AMarketModel collection = marketDB.getCollectionInDayAgo("DeGods", i) ;
+				if(collection == null) c = c + "," + 0;
+				else	{int volumeInt = convertToInt(removeLetters(collection.getVolume()));
+						c = c + "," + volumeInt;}
+				}
+			resultList.add(c);
+		}	
+		return resultList;
+		
+	}
+	
+	
+	
+	private static String removeLetters(String input) {
+        StringBuilder numericStringBuilder = new StringBuilder();
+
+        for (char c : input.toCharArray()) {
+            if (Character.isDigit(c)) {
+                numericStringBuilder.append(c);
+            }
+        }
+
+        return numericStringBuilder.toString();
+    }
+
+    private static int convertToInt(String numericString) {
+        // Nếu chuỗi rỗng sau khi loại bỏ kí tự chữ, trả về giá trị mặc định là 0
+        if (numericString.isEmpty()) {
+            return 0;
+        }
+
+        try {
+            return Integer.parseInt(numericString);
+        } catch (NumberFormatException e) {
+            System.err.println("Không thể chuyển đổi chuỗi thành số nguyên.");
+            e.printStackTrace();
+            return 0;
+        }
+    }
+    
+//    public static void main(String[] args) {
+//		AnalysisService a = new AnalysisService(new TwitterDB(), new OpenSeaDB());
+//		System.out.println(a.convertToInt(removeLetters("143 ETH")));
+//	}
+}

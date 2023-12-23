@@ -1,0 +1,17 @@
+package crawl;
+
+import org.openqa.selenium.WebElement;
+
+import application.model.AMarketModel;
+
+public abstract class AMarketCrawl<T extends AMarketModel> extends AAMyCrawler  {
+	
+	public abstract T       getCollectionElement(WebElement n);
+	public abstract int     getRankElement(int n);
+	public abstract String  getNameElelement(int n);
+	public abstract String  getVolumeElelement(int n);
+	public abstract String  getPercentChangeElelement(int n);
+	public abstract String  getFloorPriceElelement(int n);
+	public abstract String  getDateElelement(int n);
+
+}

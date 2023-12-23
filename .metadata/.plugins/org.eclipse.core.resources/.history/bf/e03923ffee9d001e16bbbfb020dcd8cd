@@ -1,0 +1,21 @@
+package application.model;
+
+public class OpenSeaModel extends AMarketModel {
+	private int sales ;
+
+	public int getSales() {
+		return sales;
+	}
+	
+	public OpenSeaModel(int rank, String name, String volume, String percent, String floor, String date, int sale) {
+		super(rank, name, volume, percent, floor, date);
+		this.rank = rank ;
+		this.name = name;
+		this.volume = volume ; 
+		this.percentChange = percent;
+		this.floorPrice = floor;
+		this.date = date;
+		this.sales = sale;
+	}
+	
+}

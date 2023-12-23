@@ -1,0 +1,13 @@
+package application.model;
+
+
+public class BlogModel extends APostModel {
+	private String title ;
+	private String describe ;
+
+	public BlogModel(String author, String date, String tags, String postUrl, String imageUrl, String title, String describe) {
+		super(author, date, tags, postUrl, imageUrl);
+		this.title 		= title ;
+		this.describe 	= describe ;
+	}
+}

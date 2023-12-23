@@ -1,0 +1,92 @@
+package application.controller;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import application.model.database.TwitterDB;
+import application.service.SeePostService;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
+
+public class PostListController extends MyController {	
+	
+	private static final String url = "application/PostList.fxml" ;
+	private JSONArray data = new JSONArray(); 
+	
+	@FXML
+	private VBox root;
+	@FXML
+	private VBox showArea;
+	@FXML
+	private ComboBox<String> socialOption;
+	@FXML
+	private TextField search ;
+	
+	public VBox getRoot() {
+		return root ;
+	}
+	public PostListController() {
+		inItData() ;
+		loadView();
+	}
+	
+	public void inItData() {
+		
+	}
+	
+	@FXML
+	void searchButtonPressed(ActionEvent event) throws IOException {
+		showArea.getChildren().clear();
+		
+		loadData(search.getText(), socialOption.getValue());
+		for(int i = 0;i < data.length() ;i++) {	
+				ListController aController = new ListController() ;
+				JSONObject jsonObject = data.getJSONObject(i);
+				aController.add(jsonObject.getString("author"), jsonObject.getString("date"), null);
+				aController.addAction(jsonObject.getString("tags"),jsonObject.getString("imageUrl"),jsonObject.getString("postUrl")
+										,Integer.toString(jsonObject.getInt("views")) ,Integer.toString(jsonObject.getInt("likes")));
+				showArea.getChildren().add(aController.getRoot());
+			}
+	}
+	
+	@Override
+	public void loadView() {
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource(url));
+		fxmlLoader.setController(this);
+	      try {
+	          root = fxmlLoader.load();
+	      } catch (IOException e) {
+	    	  e.printStackTrace();
+	      }
+	      ObservableList<String> options = FXCollections.observableArrayList("Twitter","Blog");
+		  socialOption.setItems(options);
+//			for(int i = 0;i < p.size() ;i++) {	
+//				ListController aController = new ListController() ;
+//				aController.add(p.get(i), null, null);
+//				aController.addAction();
+//				showArea.getChildren().add(aController.getRoot());	
+//				
+//			}
+	}
+	
+	private void loadData(String hashtag, String social) {
+		if     (social.equals("Twitter"))	data =  (new SeePostService(new TwitterDB() ,hashtag)).getResult();	
+		else if(social.equals("Blog"))      data =  (new SeePostService(new TwitterDB() ,hashtag)).getResult();	
+ 	}
+ 
+}
+
+
+		
+	
+

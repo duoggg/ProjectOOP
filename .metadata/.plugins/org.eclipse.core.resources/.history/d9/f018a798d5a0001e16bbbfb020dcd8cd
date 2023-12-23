@@ -1,0 +1,18 @@
+package crawl;
+
+import java.util.List;
+
+import application.model.AMarketModel;
+
+public abstract class IMarketCrawl extends IMyCrawler  {
+	
+	public abstract T       getCollectionElement(int n);
+	public abstract void    crawl();
+	public abstract int     getRankElement(int n);
+	public abstract String  getNameElelement(int n);
+	public abstract String  getVolumeElelement(int n);
+	public abstract String  getPercentChangeElelement(int n);
+	public abstract String  getFloorPriceElelement(int n);
+	public abstract String  getDateElelement(int n);
+
+}

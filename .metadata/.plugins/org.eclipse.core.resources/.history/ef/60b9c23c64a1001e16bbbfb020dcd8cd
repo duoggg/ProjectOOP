@@ -1,0 +1,13 @@
+package application.database;
+
+import java.util.List;
+
+import application.model.ACollectionModel;
+
+
+public interface ICollectionDB <T extends ACollectionModel> {
+	
+	public  List<T> getAllColectionInDayAgo (int dayAgo) ;
+	public  List<T> getCollectionByNameInDayAgo (String name , int day);
+	
+}

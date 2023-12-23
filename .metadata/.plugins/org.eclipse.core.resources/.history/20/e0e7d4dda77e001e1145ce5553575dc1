@@ -1,0 +1,55 @@
+package test;
+
+public class Tweet {
+	private String acount;
+	private String date;
+	private String hashtag;
+	private String imageUrl;
+	private String postlUrl;
+	private int view;
+	private int like;
+	public String getAcount() {
+		return acount;
+	}
+	public void setAcount(String acount) {
+		this.acount = acount;
+	}
+	public String getDate() {
+		return date;
+	}
+	public void setDate(String date) {
+		this.date = date;
+	}
+	public String getHashtag() {
+		return hashtag;
+	}
+	public void setHashtag(String hashtag) {
+		this.hashtag = hashtag;
+	}
+	public String getImageUrl() {
+		return imageUrl;
+	}
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+	public String getPostlUrl() {
+		return postlUrl;
+	}
+	public void setPostlUrl(String postlUrl) {
+		this.postlUrl = postlUrl;
+	}
+	public int getView() {
+		return view;
+	}
+	public void setView(int view) {
+		this.view = view;
+	}
+	public int getLike() {
+		return like;
+	}
+	public void setLike(int like) {
+		this.like = like;
+	}
+	
+	
+}

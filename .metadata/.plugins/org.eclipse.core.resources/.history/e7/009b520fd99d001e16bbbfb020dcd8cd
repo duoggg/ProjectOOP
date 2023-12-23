@@ -1,0 +1,7 @@
+package application.model.database;
+
+import application.model.TwitterModel;
+
+public class BlogDB extends DBContext implements IPostDB<TwitterModel> {
+
+}

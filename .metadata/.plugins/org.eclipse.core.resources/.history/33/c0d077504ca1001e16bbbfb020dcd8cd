@@ -1,0 +1,15 @@
+package application.model.database;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+
+public abstract class AMyDatabase {
+	
+	
+	
+	public AMyDatabase() {
+		
+	}
+	
+	
+}

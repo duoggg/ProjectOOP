@@ -1,0 +1,8 @@
+package application.model;
+
+public class OpenSeaModel {
+	private int sales ;
+	
+	
+	
+}

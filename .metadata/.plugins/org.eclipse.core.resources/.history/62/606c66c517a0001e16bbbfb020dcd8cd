@@ -1,0 +1,91 @@
+package application.service;
+
+import java.util.ArrayList;
+import java.util.List;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import application.model.AMarketModel;
+import application.model.APostModel;
+import application.model.database.IMarketDB;
+import application.model.database.IPostDB;
+
+public class AnalysisService {
+	private IPostDB<?> postDB ;
+	private IMarketDB<?> marketDB;
+	private static final int NUMBEROFPLOT = 4 ;
+	private JSONArray result = new JSONArray() ;
+	
+	public AnalysisService(IPostDB<?> postDB, IMarketDB<?> marketDB ) {
+		this.postDB = postDB ;
+		this.marketDB = marketDB ;
+	}
+	
+	public JSONArray getResult() {
+		//result = getCollectionWithNumberOfTagIn();
+		return result ;
+	}
+	
+	public  JSONArray  getCollectionName() {
+		JSONArray jsonArray = new JSONArray();
+		for(String name : marketDB.getAllCollectionName()) {
+			JSONObject jsonObject = new JSONObject();
+			jsonObject.put("name",name );
+			jsonArray.put(jsonObject);
+		 }	
+		return jsonArray;	
+	}
+	
+	public  JSONObject  getCollectionWithNumberOfTagIn(String name) {
+			JSONObject jsonObject = new JSONObject();
+			jsonObject.put("name",name );
+	
+			// Volume theo ngay
+			for(int i = 1 ; i <= NUMBEROFPLOT ; i++) {
+				AMarketModel collection = marketDB.getCollectionInDayAgo(name, i+12) ;
+				if(collection == null) jsonObject.put("Volume Day"+ i, 0);
+				else	{int volumeInt = collection.calVolume(); jsonObject.put("Volume Day" + i , volumeInt );}
+			}
+			
+			// So HashTag theo ngay
+			for(int i = 1 ; i <= NUMBEROFPLOT ; i++) {
+				List<String> listTagList = new ArrayList<String>();
+				int count = 0;
+				for(APostModel post : postDB.getPostInDayAgo(i+12)) listTagList.addAll(post.tagList());
+				for(String tag : listTagList) if(name.equals(tag)) count ++ ; 
+				jsonObject.put("Tag Day" + i , count );
+			}
+
+		return jsonObject;	
+	}
+	
+	public JSONArray getReccomendPost(String name) {
+		JSONArray jsonArray = new JSONArray();
+		List<String> soLieuList = new ArrayList<String>();
+		List<String> baiVietList = new ArrayList<String>();
+		List<Integer> volumeList = new ArrayList<Integer>();
+		
+		for(int i = 1 ; i <= NUMBEROFPLOT ; i++) {
+			AMarketModel collection = marketDB.getCollectionInDayAgo(name, i+15) ;
+			if(collection == null) volumeList.add(0);
+			else	{ volumeList.add(collection.calVolume()) ;}
+		}
+		
+		StringBuilder queryBuilder = new StringBuilder();
+		for (int i = 1; i < prices.length; i++) {
+            if      (volumeList.get(i) > volumeList.get(i-1))     queryBuilder.append("price increase ");
+            else if (volumeList.get(i) > volumeList.get(i-1))     queryBuilder.append("price decrease ");  
+        }
+		for (int i = 1; i < volumeList.size(); i++) {
+            if (volumeList.get(i) > volumeList.get(i-1)) {
+                soLieuList.add(name)
+            } else if (volumeList.get(i) < prices[i-1]) {
+                queryBuilder.append("price decrease ");
+            }
+        }
+		String query = queryBuilder.toString().trim();
+		
+		return jsonArray;	
+	}
+   
+	private 
+}

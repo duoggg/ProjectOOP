@@ -1,0 +1,24 @@
+package application.model;
+
+public class BinanceModel  extends AMarketModel{
+	
+	private int owners ;
+	private int items ;
+	
+	public BinanceModel(int rank, String name, String volume, String percentChange, String floorPrice, String date, int owners, int items) {
+		super(rank, name, volume, percentChange, floorPrice, date);
+		this.owners = owners ;
+		this.items  = items;
+	}
+	
+	public int getOwners() 			  { return owners;}
+	public int getItems() 			  { return items; }
+
+	@Override
+	public String getVolume() {
+		 StringBuilder stringBuilder = new StringBuilder(volume);
+	     stringBuilder.delete(stringBuilder.length() - 4, stringBuilder.length());
+	     return toString();
+	}
+		
+}

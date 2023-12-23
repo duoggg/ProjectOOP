@@ -1,0 +1,20 @@
+package application.model.database;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import application.model.APostModel;
+import application.model.TwitterModel;
+
+public interface IPostDB {
+	public <T extends > List<APostModel>  getAllPost() ;
+	public List<APostModel> getPostByDay() ;
+	public List<APostModel> getPostByWeek();
+	public List<APostModel>  getPostByMonth() ;
+//	public <T extends APostModel> List<T>  getAllPost() ;
+//	public <T extends APostModel> List<T> getPostByDay() ;
+//	public <T extends APostModel> List<T> getPostByWeek();
+//	public <T extends APostModel> List<T>  getPostByMonth() ;
+	public void deletePost() ;
+	public void insertPost() ;
+}

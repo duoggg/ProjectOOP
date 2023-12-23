@@ -1,0 +1,7 @@
+package application.controller;
+
+public interface ICallUrl {
+	
+	public void setHeader(String s);
+	public  void call(String name, MyController controller) ;
+}

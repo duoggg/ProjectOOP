@@ -1,0 +1,73 @@
+package application.controller;
+
+import java.io.IOException;
+
+import org.json.JSONArray;
+
+import application.model.database.BlogDB;
+import application.model.database.TwitterDB;
+import application.service.HotHashTagService;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+//import application.controller.RecycleBin.ListMoreController;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.ComboBox;
+import javafx.scene.layout.VBox;
+
+public class AnalysisController extends MyController {
+	
+	private static final String url = "application/Analysis.fxml" ;
+	private JSONArray data = new JSONArray(); 
+	@FXML
+	private VBox root;
+	@FXML
+	private VBox showArea;
+	@FXML
+	private ComboBox<String> marketplace;
+	public VBox getRoot() {
+		return root ;
+	}
+	public AnalysisController() {
+		loadView();
+		
+		ObservableList<String> options = FXCollections.observableArrayList("OpenSea","Binance");
+	    marketplace.setItems(options);
+	   
+	}
+	
+	@FXML
+	void searchButtonPressed(ActionEvent event) {
+
+	}
+	
+	@Override
+	public void loadView() {
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource(url));
+		fxmlLoader.setController(this);
+	      try {
+	          root = fxmlLoader.load();
+	      } catch (IOException e) {
+	    	  e.printStackTrace();
+	      }
+	}
+	
+	private void loadData(String time, String social) {
+		if(social.equals("Twitter")) {
+			switch(time) {
+				case "24H" : data = (new HotHashTagService(new TwitterDB() ,HotHashTagService.DAY)).getResult()   ; break ;
+				case "1W" :  data = (new HotHashTagService(new TwitterDB() ,HotHashTagService.WEEK)).getResult()  ; break ;
+				case "1M" :  data = (new HotHashTagService(new TwitterDB() ,HotHashTagService.MONTH)).getResult() ; break ;
+				default   :  data = (new HotHashTagService(new TwitterDB())).getResult()    					  ; break ;
+			}
+			
+		} else if(social.equals("Blog")) {
+			switch(time) {
+				case "24H" : data = (new HotHashTagService(new BlogDB() ,HotHashTagService.DAY)).getResult()   ; break ;
+				case "1W" :  data = (new HotHashTagService(new BlogDB() ,HotHashTagService.WEEK)).getResult()  ; break ;
+				case "1M" :  data = (new HotHashTagService(new BlogDB() ,HotHashTagService.MONTH)).getResult() ; break ;
+				default   :  data = (new HotHashTagService(new BlogDB())).getResult()    					   ; break ;
+			}
+		}
+}

@@ -1,0 +1,45 @@
+package application.service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import application.model.AMarketModel;
+import application.model.database.IMarketDB;
+import application.model.database.IPostDB;
+
+
+public class AnalysisService {
+	private IPostDB<?> postDB ;
+	private IMarketDB<?> marketDB;
+	
+	private JSONArray result = new JSONArray() ;
+	
+	public AnalysisService(IPostDB<?> postDB, IMarketDB<?> marketDB ) {
+		this.postDB = postDB ;
+		this.marketDB = marketDB ;
+	}
+	
+	public JSONArray getResult() {
+		return result;
+	}
+	
+	public  JSONArray  getCollectionWithNumberOfTagIn() {
+		JSONArray jsonArray = new JSONArray();
+		for(String name : marketDB.getAllCollectionName()) {
+			JSONObject jsonObject = new JSONObject();
+			jsonObject.put("nameCollection",name );
+			for(int i = 1 ; i <= 2 ; i++) {
+				AMarketModel collection = marketDB.getCollectionInDayAgo(name, i+12) ;
+				if(collection == null) jsonObject.put("day"+ i, 0);
+				else	{int volumeInt = collection.calVolume(); jsonObject.put("day" + i , volumeInt );}
+			}
+			jsonArray.put(jsonObject);
+		 }	
+		return jsonArray;	
+	}
+	
+    
+}

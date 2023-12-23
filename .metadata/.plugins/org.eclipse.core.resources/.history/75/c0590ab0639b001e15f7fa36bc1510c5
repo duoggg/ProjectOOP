@@ -1,0 +1,14 @@
+package application.model;
+
+public class AMarketModel {
+	private int rank ;
+	private String collection ;
+	private int volume ;
+	private int percentChange ;
+	private int floorPrice ;
+	private String date ;
+	
+	
+	
+
+}

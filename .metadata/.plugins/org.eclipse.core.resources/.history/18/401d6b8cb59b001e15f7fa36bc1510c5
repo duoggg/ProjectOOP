@@ -1,0 +1,43 @@
+package application.controller;
+
+import javafx.fxml.FXML;
+
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.LineChart;
+
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
+import javafx.scene.layout.VBox;
+
+public class Controller {
+	@FXML
+	public VBox root;
+    @FXML
+    public CategoryAxis xAxis;
+
+    @FXML
+    public NumberAxis quantity;
+
+    @FXML
+    private LineChart<String,Integer> chart ;
+    
+
+	public Controller() {
+        
+    }
+	
+	public void addData(Integer... doubles) {
+		XYChart.Series<String,Integer> series = new XYChart.Series<>();
+		//Integer[] doubles = {12,14,15,18};
+		for(int i = doubles.length; i > 0 ; i--) {
+			 series.getData().add(new XYChart.Data<>(i + " day ago" , doubles[i-1] ));
+		}
+		XYChart.Series<String,Integer> series = new XYChart.Series<>();
+		//Integer[] doubles = {12,14,15,18};
+		for(int i = 1 ; i <= doubles.length  ; i--) {
+			 series.getData().add(new XYChart.Data<>(i + " day ago" , doubles[i-1] ));
+		}
+        chart.getData().addAll(series,series);
+        
+	}
+}

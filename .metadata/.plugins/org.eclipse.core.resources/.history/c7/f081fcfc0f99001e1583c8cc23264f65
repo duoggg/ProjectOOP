@@ -1,0 +1,9 @@
+package application.model.database;
+
+import java.util.List;
+
+public interface IAppDB<T> {
+	public  List<T> 	getAll() ;
+	public void 	delete() ;
+	public void 	add() ;
+}

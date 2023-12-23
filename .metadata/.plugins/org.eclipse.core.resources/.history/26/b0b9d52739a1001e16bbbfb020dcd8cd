@@ -1,0 +1,215 @@
+package crawl;
+
+import com.google.gson.Gson;
+
+import application.model.BlogModel;
+import application.model.TwitterModel;
+
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+
+import org.openqa.selenium.*;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+
+public class BlogCrawler extends APostCrawler<BlogModel> {
+	private static final String     URL       = "https://www.nftically.com/blog/" ;
+	private static final String     JSON_PATH = "blog.json" ;
+	private List<TwitterModel>      listPost  = new ArrayList<TwitterModel>();
+	
+	public BlogCrawler(AMyDriverContext myDriver) {
+		this.driver = myDriver.getDriver() ;
+	}
+	public static void main(String[] args) throws InterruptedException {
+		
+		
+		
+		System.setProperty("webdriver.edge.driver", "E:\\NFTs\\NFTs\\lib\\msedgedriver.exe");
+		
+		WebDriver driver = new EdgeDriver();
+		
+		driver.get(URL);
+        driver.manage().window().maximize();
+        driver.manage().deleteAllCookies();
+        driver.manage().timeouts().pageLoadTimeout(40, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+
+		WebDriverWait wait = new WebDriverWait(driver, 50);
+		ArrayList<BlogModel> listBlogs = new ArrayList<BlogModel>();
+		
+        while (true) {	
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("div[id*='post-']")));
+            Thread.sleep(3000);
+            List<WebElement> blogsElements = driver.findElements(By.cssSelector("div[id*='post-']"));
+            String checkDate = null;
+            
+        	for (WebElement n : blogsElements) {
+        		
+        		WebElement dateElement = n.findElement(By.cssSelector("div[class='blog-date'] > ul:nth-child(1) > li:nth-child(1)"));
+        		checkDate = dateElement.getText();
+        		if (!checkDate.contains("2023")) continue;
+        		System.out.println("Date: " + checkDate);
+        		
+        		WebElement authorElement = n.findElement(By.cssSelector("div[class='author'] > a:nth-child(1) > span:nth-child(2)"));
+        		String author = authorElement.getText();
+        		System.out.println("Author: " + author);
+        		
+        		String classNameString = n.getAttribute("class");
+                String[] words = classNameString.split("\\s+");
+                String tagString = new String();
+                for (String word : words) 
+	                if (word.contains("tag")) {
+	                	word = word.substring(4);
+	                	tagString += word ;
+	                }
+                System.out.println("Tag: " + tagString);
+                
+                WebElement titleElement = n.findElement(By.className("blog-title"));
+        		String title  = titleElement.getText();
+        		System.out.println("Title: " + title);
+                
+                WebElement blogURLElement = titleElement.findElement(By.cssSelector("a:nth-child(1)"));
+                String  blogURL = blogURLElement.getAttribute("href");
+        		System.out.println("URL: " + blogURL);
+        		
+        		WebElement describElement = n.findElement(By.cssSelector("div[class='blog-info'] > p:nth-child(3)"));
+        		String describe = describElement.getText();
+        		System.out.println("Describe: " + describe);
+        		
+        		WebElement imgElement = n.findElement(By.cssSelector("div[class*='image'] > a:nth-child(1) > img:nth-child(1)"));
+        		String img = imgElement.getAttribute("src");
+        		System.out.println("Image: " + img);
+
+        		BlogModel item = new BlogModel(author, checkDate, tagString, blogURL, img, title, describe) ;
+                System.out.println("\n");
+                listBlogs.add(item);
+        		
+        	}
+        	if (!checkDate.contains("2023")) break;
+        	try {
+        		WebElement nextPageElement = driver.findElement(By.cssSelector("a[aria-label='Next Page']"));
+            	driver.get(nextPageElement.getAttribute("href"));
+        		Thread.sleep(3000);
+			} catch (Exception e) {
+				e.printStackTrace();
+				break ;
+			}
+        }
+        driver.quit();
+        listPost = listBlogs.stream().distinct().collect(Collectors.toList());	
+      
+		
+		
+   
+	}
+	@Override
+	public void crawl() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void saveAsJsonFile() {    
+        Gson gson = new Gson();
+        String jsonData = gson.toJson(listBlogs);
+        
+        try (FileWriter file = new FileWriter("blog.json")) {
+        	
+        	file.write(jsonData);
+        	file.flush();
+			
+		} catch (IOException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+
+        System.out.println(jsonData);
+        for (int i = 0; i < listBlogs.size(); i++){
+            System.out.println(i + " Blog: " + listBlogs.get(i).getBlogURL());
+        }
+		
+	}
+
+	@Override
+	public BlogModel getPost(WebElement n) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getAuthor(WebElement n) {
+		WebElement authorElement = n.findElement(By.cssSelector("div[class='author'] > a:nth-child(1) > span:nth-child(2)"));
+		String author = authorElement.getText();
+		System.out.println("Author: " + author);
+		return author ;
+	}
+
+	@Override
+	public String getDate(WebElement n) {
+		WebElement dateElement = n.findElement(By.cssSelector("div[class='blog-date'] > ul:nth-child(1) > li:nth-child(1)"));
+		checkDate = dateElement.getText();
+		if (!checkDate.contains("2023")) continue;
+		item.setDate(checkDate);
+//		item.setDate(dateElement.getText());
+		System.out.println("Date: " + item.getDate());
+		
+	}
+
+	@Override
+	public String getTags(WebElement n) {
+		String classNameString = n.getAttribute("class");
+			// Tách các từ trong chuỗi
+        String[] words = classNameString.split("\\s+");
+        String tagString = new String();
+        for (String word : words) {
+            if (word.contains("tag")) {
+            	word = word.substring(4);
+            	tagString += word ;
+            }
+        }
+        System.out.println("Tag: " + tagString);
+        return tagString ;
+	}
+
+	@Override
+	public String getPostUrl(WebElement n) {
+		// Lấy URL của Blog
+		WebElement blogURLElement = titleElement.findElement(By.cssSelector("a:nth-child(1)"));
+		item.setBlogURL(blogURLElement.getAttribute("href"));
+		System.out.println("URL: " + item.getBlogURL());
+	}
+
+	@Override
+	public String getImageUrl(WebElement n) {
+		WebElement imgElement = n.findElement(By.cssSelector("div[class*='image'] > a:nth-child(1) > img:nth-child(1)"));
+		String img = imgElement.getAttribute("src");
+		System.out.println("Image: " + img);
+		return img ;
+	}
+	
+	public String getTitle(WebElement n) {
+		WebElement titleElement = n.findElement(By.className("blog-title"));
+		String img  = titleElement.getText();
+		System.out.println("Title: " + img);
+		return img ;
+	}
+	
+	public String getDescribe(WebElement n) {
+		WebElement describElement = n.findElement(By.cssSelector("div[class='blog-info'] > p:nth-child(3)"));
+		String describe = describElement.getText();
+		System.out.println("Describe: " + describe);
+		return describe ;
+	}
+
+	
+}
+
+
+

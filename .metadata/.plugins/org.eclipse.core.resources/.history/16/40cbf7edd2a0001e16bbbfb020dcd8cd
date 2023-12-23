@@ -1,0 +1,12 @@
+package crawl;
+
+import org.openqa.selenium.WebDriver;
+
+public abstract class MyDriverContext {
+	protected WebDriver driver ;
+	public void closeDriver() {
+		driver.quit();
+	}
+	
+	public abstract WebDriver getDriver() ;
+}

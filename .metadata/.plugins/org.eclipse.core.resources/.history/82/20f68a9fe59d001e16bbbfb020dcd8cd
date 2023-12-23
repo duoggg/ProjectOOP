@@ -1,0 +1,16 @@
+package application.model;
+
+public class BinanceModel  extends AMarketModel{
+	int owners ;
+	private int items ;
+	public int getOwners() 			  { return owners;}
+	public void setOwners(int owners) {this.owners = owners;}
+	public int getItems() {
+		return items;
+	}
+	public void setItems(int items) {
+		this.items = items;
+	}
+	
+	
+}

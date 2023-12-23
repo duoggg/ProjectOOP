@@ -1,0 +1,8 @@
+package application.model;
+
+public class TwitterModel {
+	private String acount ;
+	private String date ;
+	private String hashtag ;
+	private String postlUrl ;
+}

@@ -1,0 +1,11 @@
+package application.service;
+
+import org.json.JSONArray;
+
+public abstract class AAService {
+	private JSONArray result = new JSONArray() ;
+	public JSONArray getResult() {
+		return result;
+	}
+	
+}

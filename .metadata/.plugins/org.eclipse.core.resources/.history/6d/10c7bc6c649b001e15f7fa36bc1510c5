@@ -1,0 +1,8 @@
+package application.model;
+
+public class BinanceModel  extends AMarketModel{
+	int owners ;
+	private int items ;
+	
+	
+}

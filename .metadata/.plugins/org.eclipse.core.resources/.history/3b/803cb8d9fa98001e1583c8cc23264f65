@@ -1,0 +1,11 @@
+package application.model;
+
+public class OpenSeaModel {
+	private int rank ;
+	private String collection ;
+	private int volume ;
+	private int percentChange ;
+	private int floorPrice ;
+	private int sales ;
+	private String date ;
+}

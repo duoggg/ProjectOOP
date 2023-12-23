@@ -1,0 +1,102 @@
+package application.service;
+
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.document.TextField;
+import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.queryparser.classic.ParseException;
+import org.apache.lucene.queryparser.classic.QueryParser;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.store.FSDirectory;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import application.model.AMarketModel;
+import application.model.APostModel;
+import application.model.database.IMarketDB;
+import application.model.database.IPostDB;
+
+
+public class RecommendPostService {
+	private IPostDB<?> postDB     ;
+	private IMarketDB<?> marketDB ;
+	
+	private static final int NUMBEROFPLOT = 4 ;
+	private JSONArray result = new JSONArray() ;
+	
+	public RecommendPostService (IPostDB<?> postDB, IMarketDB<?> marketDB ) {
+		this.postDB = postDB ;
+		this.marketDB = marketDB ;
+	}
+	
+	public JSONArray getReccomendPost(String name) {
+		JSONArray jsonArray = new JSONArray();
+		List<Integer> volumeList = new ArrayList<Integer>();
+
+		for(int i = 1 ; i <= NUMBEROFPLOT ; i++) {
+			
+			if(marketDB.getCollectionByNameInDayAgo(name, i).size()==0) volumeList.add(0);
+			else {
+				AMarketModel collection = marketDB.getCollectionByNameInDayAgo(name, i).get(0) ;
+				volumeList.add(collection.calVolume()) ;
+			}
+		}
+		
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append(name + " ");
+		for (int i = 1; i < volumeList.size(); i++) {
+            if      (volumeList.get(i) > volumeList.get(i-1))     queryBuilder.append("price increase ");
+            else if (volumeList.get(i) < volumeList.get(i-1))     queryBuilder.append("price decrease "); 
+            else if (volumeList.get(i) == volumeList.get(i-1))    queryBuilder.append("price unchanged ");
+        }
+
+		try {
+			FSDirectory indexDirectory = FSDirectory.open(Paths.get("E:\\MySql\\apacelucene"));
+			IndexWriterConfig config = new IndexWriterConfig(new StandardAnalyzer());
+			IndexWriter writer = new IndexWriter(indexDirectory, config);
+
+			writer.deleteAll();
+			
+			for (APostModel pos : postDB.getAllPost()) {
+			     Document doc = new Document();
+			     doc.add(new TextField("url",    pos.getPostUrl(),    Field.Store.YES));
+			     doc.add(new TextField("content",pos.getDetailSearch() , Field.Store.YES));
+			     writer.addDocument(doc);
+			 }
+
+			writer.close();
+			DirectoryReader reader = DirectoryReader.open(indexDirectory);
+			IndexSearcher searcher = new IndexSearcher(reader);
+		    QueryParser parser = new QueryParser("content", new StandardAnalyzer());
+		    Query query = parser.parse(queryBuilder.toString().trim());
+		    TopDocs topDocs = searcher.search(query, 5);
+		    ScoreDoc[] scoreDocs = topDocs.scoreDocs;
+			for (int i = 0; i < scoreDocs.length; i++) {
+				JSONObject jsonObject = new JSONObject();
+				ScoreDoc scoreDoc = scoreDocs[i];
+				Document doc = searcher.getIndexReader().document(i);
+				jsonObject.put("url",doc.get("url") );
+				jsonArray.put(jsonObject);
+			 }
+			
+		     reader.close();
+		     indexDirectory.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		  return jsonArray;	
+	}
+	
+}

@@ -1,0 +1,54 @@
+package application.service;
+
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import application.model.APostModel;
+import application.model.database.IPostDB;
+import application.model.database.TwitterDB;
+
+
+public class SeePostService {
+	
+	private IPostDB<?> db ;
+	private JSONArray result = new JSONArray() ;
+	
+	public JSONArray getResult() {
+		return result;
+	}
+	
+	public SeePostService(IPostDB<?> db ){
+		this.db = db ;
+		result  = this.getPostByHashtag(hashTag) ;
+	}
+	
+	public SeePostService(IPostDB<?> db , String hashTag){
+		this.db = db ;
+		result  = this.getPostByHashtag(hashTag) ;
+	}
+	
+	public  JSONArray getAllPost(){
+		JSONArray jsonArray = new JSONArray();
+		for(APostModel post : db.getAllPost()) 	{
+			JSONObject jsonObject = new JSONObject(post);
+ 	        jsonArray.put(jsonObject);
+		}
+		return jsonArray ;
+	}
+	
+	public JSONArray getPostByHashtag(String hashtag){
+		JSONArray jsonArray = new JSONArray();
+		for(APostModel post : db.getAllPost()) 	{
+			String[] hashtags = post.getTags().split("\\s+|#");
+			for (String tag : hashtags) {
+				System.out.println(tag);
+				if(tag.equalsIgnoreCase(hashtag))  {
+					jsonArray.put(new JSONObject(post));
+					break;
+				}
+			}
+		}
+		return jsonArray ;
+	}
+}

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox fx:id="detail" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="823.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <padding>
+      <Insets top="13.0" />
+   </padding>
+   <children>
+      <Label alignment="TOP_LEFT" prefHeight="80.0" prefWidth="823.0">
+         <font>
+            <Font name="Montserrat Bold" size="20.0" />
+         </font>
+         <graphic>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="URL Bài viết : " wrappingWidth="822.3799896240234">
+               <font>
+                  <Font name="Montserrat Bold" size="20.0" />
+               </font>
+            </Text>
+         </graphic>
+      </Label>
+      <Label alignment="TOP_LEFT" prefHeight="80.0" prefWidth="823.0">
+         <font>
+            <Font name="Montserrat Bold" size="20.0" />
+         </font>
+         <graphic>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="URL Ảnh : " wrappingWidth="822.3799896240234">
+               <font>
+                  <Font name="Montserrat Bold" size="20.0" />
+               </font>
+            </Text>
+         </graphic>
+      </Label>
+      <Label alignment="TOP_LEFT" prefHeight="80.0" prefWidth="823.0">
+         <font>
+            <Font name="Montserrat Bold" size="20.0" />
+         </font>
+         <graphic>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Hashtag : " wrappingWidth="822.3799896240234">
+               <font>
+                  <Font name="Montserrat Bold" size="20.0" />
+               </font>
+            </Text>
+         </graphic>
+      </Label>
+      <HBox prefHeight="53.0" prefWidth="823.0">
+         <children>
+            <Label prefWidth="410.0" styleClass="detail">
+               <font>
+                  <Font name="Montserrat Bold" size="20.0" />
+               </font>
+               <graphic>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Lượt view : " wrappingWidth="405.37998962402344">
+                     <font>
+                        <Font name="Montserrat Bold" size="20.0" />
+                     </font>
+                  </Text>
+               </graphic>
+            </Label>
+            <Label prefWidth="410.0">
+               <font>
+                  <Font name="Montserrat Bold" size="20.0" />
+               </font>
+               <graphic>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Lượt like : " wrappingWidth="405.37998962402344">
+                     <font>
+                        <Font name="Montserrat Bold" size="20.0" />
+                     </font>
+                  </Text>
+               </graphic>
+            </Label>
+         </children>
+      </HBox>
+   </children>
+</VBox>

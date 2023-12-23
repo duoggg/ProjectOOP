@@ -1,0 +1,82 @@
+package application.controller;
+
+import java.io.IOException;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import application.controller.post.ItemPostController;
+import application.service.CrawlService;
+import application.service.SeePostService;
+import crawl.crawler.BinanceCrawler;
+import crawl.crawler.NfticallyBlogCrawler;
+import crawl.crawler.OpenSeaCrawler;
+import crawl.crawler.TwitterCrawler;
+import crawl.driver.EdgeDriverContext;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
+
+public class CrawlController  {
+	private static final String URL = "application/view/Crawl.fxml" ;
+	private static final String HEADER_STRING = "Danh sách bài viết" ;
+	private CrawlService service ;
+	@FXML
+	private VBox root;
+	@FXML
+	private Label header;
+	@FXML
+	private VBox showArea;
+	@FXML
+	private ComboBox<String> socialOption;
+	@FXML
+	private AnchorPane itemCrawl;
+	@FXML
+	private Label option;
+
+	public CrawlController() {
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource(URL));
+		fxmlLoader.setController(this);
+	      try {
+	          root = fxmlLoader.load();
+	      } catch (IOException e) {
+	    	  e.printStackTrace();
+	      }
+	      header.setText(HEADER_STRING);
+	      ObservableList<String> options = FXCollections.observableArrayList("Twitter","NFTicallyBlog","Binance","OpenSea");
+		  socialOption.setItems(options);
+		  
+//		  if(socialOption.getValue() == null) itemCrawl.setVisible(false);
+//		  else {
+//			  String optionStr = socialOption.getValue();
+//			  option.setText(optionStr);
+//			  itemCrawl.setVisible(true);
+//		  }
+	}
+	
+	public VBox getRoot() {
+		return root ;
+	}
+	
+	@FXML
+	void crawlButtonPressed(ActionEvent event) throws IOException {
+		if(socialOption.getValue() == null)  service = new CrawlService(new TwitterCrawler(new EdgeDriverContext())) ; 
+		else {
+		switch(socialOption.getValue()){
+			case "Twitter"       : service = new CrawlService(new TwitterCrawler(new EdgeDriverContext())) ;
+			case "NFTicallyBlog" : service = new CrawlService(new NfticallyBlogCrawler(new EdgeDriverContext())) ;
+			case "Binance"       : service = new CrawlService(new BinanceCrawler(new EdgeDriverContext())) ;
+			case "OpenSea"       : service = new CrawlService(new OpenSeaCrawler(new EdgeDriverContext())) ;
+			default              : service = new CrawlService(new TwitterCrawler(new EdgeDriverContext())) ;
+	     }
+		}
+		
+		service.crawlData();
+	}
+}

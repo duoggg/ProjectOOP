@@ -1,0 +1,25 @@
+package crawl;
+
+public class BinanceNFT {
+	private int    rank;
+	private String collection;
+	private String volume;
+	private String percentChange;
+	private String floorPrice;
+	private int    owners;
+	private int    items;
+	private String date;
+	
+	public BinanceNFT(int rank, String collection, String volume, String percentChange, String floorPrice, int owners, int items, String date) {
+		super();
+		this.rank = rank;
+		this.collection = collection;
+		this.volume = volume;
+		this.percentChange = percentChange;
+		this.floorPrice = floorPrice;
+		this.owners = owners;
+		this.items = items;
+		this.date = date;
+	}
+
+}

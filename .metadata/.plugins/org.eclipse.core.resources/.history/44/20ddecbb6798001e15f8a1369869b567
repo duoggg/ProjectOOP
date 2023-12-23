@@ -1,0 +1,17 @@
+package application.controller;
+
+import javafx.scene.layout.VBox;
+
+public abstract class MyController  {
+	
+	private VBox root;
+	private  ListController listController ;
+	
+	public VBox getRoot() {
+		return root ;
+	}
+	
+	public MyController(){
+		
+	}
+}

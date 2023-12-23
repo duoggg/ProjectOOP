@@ -1,0 +1,26 @@
+package application.controller;
+
+
+import java.io.IOException;
+
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
+
+public abstract class MyController  {
+	private VBox root ;
+	private Label header ;
+	
+	public abstract VBox getRoot() ;
+	public abstract void loadView() ;
+	public MyController() {
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource(URL));
+		fxmlLoader.setController(this);
+	      try {
+	          root = fxmlLoader.load();
+	      } catch (IOException e) {
+	    	  e.printStackTrace();
+	      }
+	      header.setText(HEADER_STRING);
+	}
+}

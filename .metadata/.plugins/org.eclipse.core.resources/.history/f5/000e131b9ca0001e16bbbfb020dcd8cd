@@ -1,0 +1,81 @@
+package application.controller;
+
+import java.io.IOException;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import application.model.database.OpenSeaDB;
+import application.model.database.TwitterDB;
+import application.service.SeeCollectionGraphService;
+import application.service.RecommendPostService;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+
+public class GraphController extends MyController {
+	
+	private static final String URL = "application/view.fxml" ;
+	private String marketOpt ;
+	private String nameCollection ;
+	private JSONArray   data1 = new JSONArray();
+	private JSONObject  data2 = new JSONObject();
+	@FXML
+	private VBox root;
+    @FXML
+    private CategoryAxis xAxis;
+    @FXML
+    private NumberAxis yAxis;
+    @FXML
+    private Label header;
+    @FXML
+    private VBox showArea;
+    
+    @FXML
+    private LineChart<String,Integer> chart ;
+    
+	public GraphController(String market,String name) {
+		this.marketOpt      = market ;
+		this.nameCollection = name ;
+		loadView();	
+    }
+	
+	@Override
+	public VBox getRoot() {
+		return root;
+	}
+
+	@Override
+	public void loadView() {
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource(URL));
+		fxmlLoader.setController(this);
+	      try {
+	          root = fxmlLoader.load();
+	      } catch (IOException e) {
+	    	  e.printStackTrace();
+	      }
+	     
+	}
+	
+	protected void loadData() {	
+		 if (marketOpt.equals("OpenSea"))   { 
+			 	RecommendPostService  	 option1 = new RecommendPostService(new TwitterDB(), new OpenSeaDB()) ;
+			 	SeeCollectionGraphService option2 = new SeeCollectionGraphService(new TwitterDB(), new OpenSeaDB()) ;
+			 	data1 =  option1.getReccomendPost(nameCollection)  ; 
+			 	data2 =  option2.getDataDraw(nameCollection)       ;
+		 }
+		 else if (nameCollection.equals("Binance"))   { 
+			 	RecommendPostService 	  option1 = new RecommendPostService(new TwitterDB(), new OpenSeaDB()) ;
+			 	SeeCollectionGraphService option2 = new SeeCollectionGraphService(new TwitterDB(), new OpenSeaDB()) ;
+				data1 =  option1.getReccomendPost(nameCollection)  ; 
+				data2 =  option2.getDataDraw(nameCollection)       ;
+				}
+	}
+		 
+}

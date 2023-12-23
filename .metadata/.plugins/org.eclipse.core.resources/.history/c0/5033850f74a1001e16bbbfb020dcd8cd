@@ -1,0 +1,35 @@
+package application.controller.analysis;
+
+
+import java.io.IOException;
+
+import application.controller.AMyController;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+
+public class ItemCollectionController  extends AMyController  {
+
+	@Override
+	public VBox getRoot() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void loadView() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void loadData() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+}

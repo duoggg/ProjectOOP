@@ -1,0 +1,5 @@
+package application.controller.crawl;
+
+public class CrawlController  {
+
+}

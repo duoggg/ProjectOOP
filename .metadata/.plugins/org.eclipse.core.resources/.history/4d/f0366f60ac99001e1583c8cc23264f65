@@ -1,0 +1,43 @@
+package application.model;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import application.controller.HotHashTag;
+import application.model.database.IPostDB;
+
+public class HotHashTagService  {
+	
+	private IPostDB<?> db ;
+	public HotHashTagService(IPostDB<?> db){
+		this.db = db ;
+	}
+	public List<String> getByDay(){
+		String stringHashtag = new String();
+		for(APostModel  pos : db.getPostByDay()) {
+			//strings.add(pos.toString());
+			String field = pos.getTag();
+			stringHashtag += field[2];
+		}
+		String[] hashtags = stringHashtag.split("#");
+		Map<String, Integer> hashtagCountMap = new HashMap<>();
+        for (String hashtag : hashtags) {
+            if (!hashtag.isEmpty()) {
+                hashtagCountMap.put(hashtag, hashtagCountMap.getOrDefault(hashtag, 0) + 1);
+            }
+        }
+		}
+		return strings;	
+	}
+	
+	public List<HotHashTag> getByWeek(){
+		return null;	
+	}
+	
+	public List<HotHashTag> getByMonth(){
+		return null;	
+	}
+	
+}

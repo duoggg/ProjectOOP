@@ -1,0 +1,39 @@
+package application.model.database;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+
+public class DBContext {
+	protected Connection connection;
+    public DBContext(){
+        try{
+            String url ="jdbc:sqlserver://localhost:1433; databaseName = BookingCare";   /* databaseName*/
+            String username = "sa";                                                     /* username*/
+            String password = "123";                                                     /* pass */
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            connection = DriverManager.getConnection(url,username,password);
+            
+        }
+        catch(ClassNotFoundException | SQLException ex){
+            System.out.println(ex);
+        }
+    }
+    protected Connection connection;
+    public DBContext(){
+        try{
+            String url = "jdbc:mysql://localhost:3306/tree";   /* databaseName*/
+            String username = "root";                                                     /* username*/
+            String password = "Tink60nhungle";                                                     /* pass */
+            Class.forName("com.mysql.jdbc.Driver");
+            connection = DriverManager.getConnection(url,username,password);
+            
+        }
+        catch(ClassNotFoundException | SQLException ex){
+            System.out.println(ex);
+        }
+    }
+public  void DATABASE_CONNECTION {
+	
+	   Statement stmt=con.createStatement();
+}
+}

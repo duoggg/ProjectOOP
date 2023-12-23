@@ -1,0 +1,52 @@
+package application.model;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
+import javafx.stage.Stage;
+
+public class Test2 extends Application {
+
+    @Override
+    public void start(Stage primaryStage) {
+        primaryStage.setTitle("Dual Line Chart Example");
+
+        // Tạo trục X và trục Y chính
+        NumberAxis xAxis = new NumberAxis();
+        NumberAxis yAxis = new NumberAxis();
+        LineChart<Number, Number> lineChart = new LineChart<>(xAxis, yAxis);
+
+        lineChart.setTitle("Dual Line Chart");
+
+        // Tạo dữ liệu cho đường thứ nhất
+        XYChart.Series<Number, Number> series1 = new XYChart.Series<>();
+        series1.setName("Line 1");
+        series1.getData().add(new XYChart.Data<>(1, 23));
+        series1.getData().add(new XYChart.Data<>(2, 14));
+        series1.getData().add(new XYChart.Data<>(3, 15));
+        series1.getData().add(new XYChart.Data<>(4, 24));
+        series1.getData().add(new XYChart.Data<>(5, 34));
+
+        // Tạo dữ liệu cho đường thứ hai
+        XYChart.Series<Number, Number> series2 = new XYChart.Series<>();
+        series2.setName("Line 2");
+        series2.getData().add(new XYChart.Data<>(1, 45));
+        series2.getData().add(new XYChart.Data<>(2, 56));
+        series2.getData().add(new XYChart.Data<>(3, 42));
+        series2.getData().add(new XYChart.Data<>(4, 36));
+        series2.getData().add(new XYChart.Data<>(5, 48));
+
+        // Thêm các dòng dữ liệu vào biểu đồ
+        lineChart.getData().addAll(series1, series2);
+
+        // Tạo và hiển thị scene
+        Scene scene = new Scene(lineChart, 600, 400);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+}

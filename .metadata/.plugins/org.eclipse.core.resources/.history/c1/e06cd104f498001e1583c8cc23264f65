@@ -1,0 +1,30 @@
+package application.controller;
+
+import javafx.fxml.FXMLLoader;
+import javafx.scene.layout.VBox;
+
+public abstract class MyController  {
+	private VBox root;
+	public VBox getRoot() {
+		return root ;
+	}
+	
+	public MyController(){
+		
+	}
+	
+	public void loadView(String url) {
+		switch (name) {
+		case "Trang chủ"			: call( name,  new HomeController())		; break ;
+		case "Danh sách bài viết"	: call( name,  new PostListController())	; break ;
+		case "Tìm hashtag hot nhất"	: call( name,  new HotHashtagController())	; break ;
+		case "Phân tích tương quan"	: call( name,  new AnalysisController())	; break ;
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource(url));
+		fxmlLoader.setController();
+	     try {
+	          root = fxmlLoader.load();
+	      } catch (Exception exception) {
+	          throw new RuntimeException(exception);
+	      }
+	}
+}

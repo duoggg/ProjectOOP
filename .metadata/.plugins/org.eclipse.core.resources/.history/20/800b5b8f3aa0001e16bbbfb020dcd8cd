@@ -1,0 +1,21 @@
+package application.service;
+
+import org.json.JSONArray;
+
+import application.model.database.IMarketDB;
+import application.model.database.IPostDB;
+
+public class SeeCollectionService {
+
+	private IMarketDB<?> marketDB;
+	private JSONArray result = new JSONArray() ;
+	
+	public SeeCollectionService (IPostDB<?> postDB, IMarketDB<?> marketDB ) {
+		this.postDB = postDB ;
+		this.marketDB = marketDB ;
+	}
+	
+	public JSONArray getResult() {
+		return result ;
+	}
+}

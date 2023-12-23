@@ -1,0 +1,56 @@
+package application.model;
+import java.util.*;
+public class Test {
+	public static void main(String[] args) {
+		String stringHashtag = new String();
+		for(APostModel  pos : db.getPostByDay()) {
+			//strings.add(pos.toString());
+			stringHashtag += pos.getTag();
+		}
+		String[] hashtags = stringHashtag.split("#");
+		Map<String, Integer> hashtagCountMap = new HashMap<>();
+        for (String hashtag : hashtags) {
+            if (!hashtag.isEmpty()) {
+                hashtagCountMap.put(hashtag, hashtagCountMap.getOrDefault(hashtag, 0) + 1);
+            }
+        }
+        List<Map.Entry<String, Integer>> entryList = new ArrayList<>(hashtagCountMap.entrySet());
+        entryList.sort((entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue()));
+        List<String> listTag = new ArrayList<String>();
+        for (Map.Entry<String, Integer> entry : entryList) {
+        	listTag.add(entry.getKey() + "," + entry.getValue()) ;
+        }
+//	        String hashtagString = "#abc#xyz#bcd#abc#xyz#abc#xyz#bcd#abc";
+//
+//	        // Bước 1: Phân tách chuỗi thành các hashtag
+//	        String[] hashtags = hashtagString.split("#");
+//
+//	        // Bước 2: Đếm số lần xuất hiện của mỗi hashtag
+//	        Map<String, Integer> hashtagCountMap = new HashMap<>();
+//	        for (String hashtag : hashtags) {
+//	            if (!hashtag.isEmpty()) {
+//	                hashtagCountMap.put(hashtag, hashtagCountMap.getOrDefault(hashtag, 0) + 1);
+//	            }
+//	        }
+//
+//	        // Bước 3: Sắp xếp danh sách theo số lần xuất hiện giảm dần
+//	        List<Map.Entry<String, Integer>> sortedHashtagList = sortByValue(hashtagCountMap);
+//
+//	        // In ra kết quả
+//	        for (Map.Entry<String, Integer> entry : sortedHashtagList) {
+//	            System.out.println(entry.getKey() + ": " + entry.getValue());
+//	        }
+	    }
+
+	    // Phương thức sắp xếp danh sách theo giảm dần của giá trị
+	    private static List<Map.Entry<String, Integer>> sortByValue(Map<String, Integer> map) {
+	        List<Map.Entry<String, Integer>> entryList = new ArrayList<>(map.entrySet());
+
+	        // Sắp xếp danh sách theo giảm dần của giá trị
+	        entryList.sort((entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue()));
+
+	        return entryList;
+	    }
+	}
+
+

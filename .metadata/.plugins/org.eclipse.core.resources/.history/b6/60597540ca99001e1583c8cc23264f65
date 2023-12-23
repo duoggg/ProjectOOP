@@ -1,0 +1,41 @@
+package application.model;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import application.model.database.IPostDB;
+import application.model.database.TwitterDB;
+
+public class SeePostService {
+	private IPostDB<?> db ;
+	
+	public SeePostService(IPostDB<?> db){
+		this.db = db ;
+	}
+	
+	public  List<String> getAllPost(){
+		List<String> resultList = new ArrayList<String>() ;
+		for(APostModel post : db.getAllPost()) 	resultList.add( post.toString());
+		return resultList;
+	}
+	
+	public List<String> getPostByHashtag(String hashtag){
+		List<String> resultList = new ArrayList<String>() ;
+		for(APostModel post : db.getAllPost()) {
+			String[] hashtags = post.getTag().split("#");
+			for (String hashtag2 : hashtags) {
+				System.out.println(hashtag2);
+				if(hashtag2.equals(hashtag)) resultList.add(post.toString());
+				break;
+			}
+					
+		}
+		return resultList;
+	}
+	public static void main(String[] args) {
+		SeePostService db = new SeePostService(new TwitterDB());
+		for(APostModel post : db.getAllPost()) {
+			
+		}
+	
+}

@@ -1,0 +1,6 @@
+package crawl;
+
+public interface IMyCrawler {
+	public void crawl();
+	public abstract void saveAsJsonFile();
+}

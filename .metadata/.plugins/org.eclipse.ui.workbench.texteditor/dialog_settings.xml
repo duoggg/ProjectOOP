@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item key="selection" value="postD"/>
+		<item key="wrap" value="true"/>
+		<item key="casesensitive" value="false"/>
+		<item key="wholeword" value="false"/>
+		<item key="incremental" value="false"/>
+		<item key="isRegEx" value="false"/>
+		<list key="findhistory">
+			<item value="postD"/>
+			<item value="add"/>
+			<item value="scroll"/>
+			<item value="xem"/>
+			<item value="root"/>
+			<item value="TimHashtag"/>
+			<item value="showList"/>
+			<item value="textHello"/>
+			<item value="press"/>
+			<item value="move"/>
+			<item value="Tweet"/>
+			<item value="NFTs"/>
+			<item value="Impl"/>
+			<item value="Imo"/>
+			<item value="setting"/>
+		</list>
+		<list key="replacehistory">
+			<item value="Blog"/>
+			<item value="BinanceNFT"/>
+		</list>
+	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
+		<item key="DIALOG_X_ORIGIN" value="1343"/>
+		<item key="DIALOG_Y_ORIGIN" value="482"/>
+		<item key="DIALOG_WIDTH" value="414"/>
+		<item key="DIALOG_HEIGHT" value="454"/>
+		<item key="DIALOG_FONT_NAME" value="1|Segoe UI|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI"/>
+	</section>
+</section>

@@ -1,0 +1,26 @@
+package application.controller.post;
+
+import application.controller.AMyController;
+import javafx.scene.layout.VBox;
+
+public class ItemPostController extends AMyController {
+
+	@Override
+	public VBox getRoot() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void loadView() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void loadData() {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

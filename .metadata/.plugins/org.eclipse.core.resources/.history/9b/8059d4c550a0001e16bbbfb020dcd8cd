@@ -1,0 +1,76 @@
+package application.controller;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.List;
+import java.util.ResourceBundle;
+
+import javax.sound.midi.VoiceStatus;
+
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+public class BaseController  implements ICallUrl {
+	
+	private static final String URL = "application/Base.fxml" ;
+	@FXML
+    private VBox main;
+	
+	public VBox getRoot() {
+		return main;
+	}
+
+	public void setMain(VBox main) {
+		this.main = main;
+	}
+	
+	 public BaseController() {
+		
+	}
+	 
+	@FXML
+	public void TrangChu(ActionEvent event) {
+		call("Trang chủ");
+	}
+	
+	@FXML
+	public void XemDanhSach(ActionEvent event) throws IOException {
+		call("Danh sách bài viết");
+	}
+	
+	@FXML
+	public void TimHotHashtag(ActionEvent event) throws IOException {
+		call("Tìm hashtag hot nhất");
+	}
+	
+	@FXML
+	public void PhanTich(ActionEvent event) throws IOException {
+		call("Phân tích tương quan");
+	}
+	
+	public void call(String name) {
+		switch (name) {
+		case "Trang chủ"			: call( name,  new HomeController())		; break ;
+		case "Danh sách bài viết"	: call( name,  new SeePostController())	; break ;
+		case "Tìm hashtag hot nhất"	: call( name,  new HotHashtagController())	; break ;
+		case "Phân tích tương quan"	: call( name,  new SeeCollectionController())	; break ;
+		default:
+			throw new IllegalArgumentException("Unexpected value: " + name);
+		}
+		
+	}
+	
+	@Override
+	public void call(String name, MyController controller) {
+		main.getChildren().clear();
+		//header.setText(name);
+		main.getChildren().add(controller.getRoot()); 
+	}
+}

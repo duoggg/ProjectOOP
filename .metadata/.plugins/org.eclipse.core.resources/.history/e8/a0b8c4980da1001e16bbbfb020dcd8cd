@@ -1,0 +1,14 @@
+package crawl;
+
+import org.openqa.selenium.WebElement;
+import application.model.APostModel;
+
+public abstract class APostCrawler<T extends APostModel> extends AAMyCrawler {
+	
+	public abstract T       getPost (WebElement n);
+	public abstract int     getAuthor (WebElement n);
+	public abstract String  getName (WebElement n);
+	public abstract String  getVolume (WebElement n);
+	public abstract String  getPercentChange (WebElement n);
+	public abstract String  getFloorPrice (WebElement n);
+}

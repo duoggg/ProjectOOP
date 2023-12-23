@@ -1,0 +1,11 @@
+package crawl;
+
+public interface IMarketCrawl {
+	public int    getRankElement();
+	public String getNameElelement();
+	public String getVolumeElelement();
+	public String getPercentChangeElelement();
+	public String getFloorPriceElelement();
+	public String getDateElelement();
+	
+}

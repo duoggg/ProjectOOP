@@ -1,0 +1,12 @@
+package application.model.database;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public abstract class IAppDB<T> extends DBContext{
+	
+	private List<T> list = new ArrayList<T>() ;
+	public abstract  List<T> getAll() ;
+	public abstract void delete() ;
+	public abstract void add() ;
+}

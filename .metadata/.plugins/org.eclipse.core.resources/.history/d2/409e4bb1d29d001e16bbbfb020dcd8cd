@@ -1,0 +1,22 @@
+package application.model;
+
+public class TwitterModel extends APostModel {
+//	private String acount ;
+	
+//	private String hashtag ;
+
+	private int views;
+	private int likes;
+
+	public TwitterModel(String acount, String date, String tag, String postlUrl, String imageUrl, int views, int likes) {
+		super();
+		this.acount = acount;
+		this.date = date;
+		this.tag = tag ; 
+		this.postlUrl = postlUrl;
+		this.imageUrl = imageUrl;
+		this.views = views;
+		this.likes = likes;
+	}
+	
+}

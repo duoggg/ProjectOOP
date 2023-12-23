@@ -1,0 +1,39 @@
+package application.model;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.json.JSONArray;
+
+import application.model.database.IPostDB;
+
+
+public class SeePostService {
+	
+	private IPostDB<?> db ;
+	public SeePostService(IPostDB<?> db){
+		this.db = db ;
+	}
+	
+	public  JSONArray getAllPost(){
+		JSONArray jsonArray = new JSONArray();
+		for(APostModel post : db.getAllPost()) 	resultList.add( post.toString());
+//		List<String> resultList = new ArrayList<String>() ;
+//		for(APostModel post : db.getAllPost()) 	resultList.add( post.toString());
+//		return resultList;
+	}
+	
+	public List<String> getPostByHashtag(String hashtag){
+		List<String> resultList = new ArrayList<String>() ;
+		for(APostModel post : db.getAllPost()) {
+			String[] hashtags = post.getTag().split("#");
+			for (String hashtag2 : hashtags) {
+				System.out.println(hashtag2);
+				if(hashtag2.equalsIgnoreCase(hashtag)) resultList.add(post.toString());
+				continue;
+			}
+					
+		}
+		return resultList;
+	}
+}

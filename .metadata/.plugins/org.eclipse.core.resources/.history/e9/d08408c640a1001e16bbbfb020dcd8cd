@@ -1,0 +1,32 @@
+package crawl;
+
+
+import java.io.FileWriter;
+import java.io.IOException;
+
+import org.json.JSONArray;
+import org.openqa.selenium.WebDriver;
+
+
+public abstract class AAMyCrawler {
+	
+	protected WebDriver driver ;
+	protected JSONArray jdata  ;
+	
+	public AAMyCrawler(AMyDriverContext myDriver) {
+		this.driver = myDriver.getDriver() ;
+		this.jdata  = new JSONArray() ;
+	}
+	
+	public abstract void crawl();
+	public void saveAsJsonFile(String path) {
+		
+		String jString = jdata.toString();
+        try (FileWriter file = new FileWriter(path)) {
+        	file.write(jString);
+        	file.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	};
+}

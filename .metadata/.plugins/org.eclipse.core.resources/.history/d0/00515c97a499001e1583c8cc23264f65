@@ -1,0 +1,92 @@
+package application.model.database;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import application.model.TwitterModel ;
+
+public class TwitterDB extends DBContext implements IPostDB<TwitterModel> {
+
+	@Override
+	public List<TwitterModel> getAllPost() {
+		 List<TwitterModel> list = new ArrayList<>();
+		 try {
+			   Statement stmt=connection.createStatement();
+			   System.out.println("added");
+			   String sql=("SELECT * FROM twitter;");		   
+		       ResultSet rs = stmt.executeQuery(sql);
+		       while (rs.next()) {
+		    	   	TwitterModel c = new TwitterModel();
+		            String acount = rs.getString("acount");			c.setAcount(acount);
+		            String date = rs.getString("date");				c.setDate(date);
+		            String hashtag = rs.getString("hashtag") ;		c.setHashtag(hashtag);
+		            String imageURL = rs.getString("imageUrl");		c.setImageUrl(imageURL);
+		            String postURL = rs.getString("postlUrl");		c.setPostlUrl(postURL);
+		            int view = rs.getInt("views");					c.setViews(view);
+		            int likes = rs.getInt("likes");					c.setLikes(likes);
+		            list.add(c);
+		        }
+
+		        connection.close();
+		   }
+		  catch(SQLException e) {
+			   System.out.println(e);
+		  } 
+		 return list;
+	}
+
+	@Override
+	public List<TwitterModel> getPostByDay() {
+		List<TwitterModel> list = new ArrayList<>();
+		 try {
+			   Statement stmt=connection.createStatement();
+			   System.out.println("added");
+			   String sql=("SELECT * FROM twitter WHERE DATE(date) = CURDATE();");		   
+		       ResultSet rs = stmt.executeQuery(sql);
+		       while (rs.next()) {
+		            String acount = rs.getString("acount");			
+		            String date = rs.getString("date");				
+		            String hashtag = rs.getString("hashtag") ;		
+		            String imageURL = rs.getString("imageUrl");		
+		            String postURL = rs.getString("postlUrl");		
+		            int view = rs.getInt("views");					
+		            int likes = rs.getInt("likes");					
+		            TwitterModel c = new TwitterModel(acount,date,hashtag,imageURL,postURL,view,likes);
+		            list.add(c);
+		        }
+
+		        connection.close();
+		   }
+		  catch(SQLException e) {
+			   System.out.println(e);
+		  } 
+		 return list;
+	}
+
+	@Override
+	public List<TwitterModel> getPostByWeek() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<TwitterModel> getPostByMonth() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void insertPost() {
+		// TODO Auto-generated method stub	
+	}
+//	public static void main(String[] args) {
+//		TwitterDB db = new TwitterDB() ;
+//		for(TwitterModel c : db.getAllPost()) {
+//			System.out.println(c.getHashtag());
+//		}
+//	}
+
+
+}

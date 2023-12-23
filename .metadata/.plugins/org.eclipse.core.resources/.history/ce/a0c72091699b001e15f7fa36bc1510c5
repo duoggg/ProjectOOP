@@ -1,0 +1,25 @@
+package application.model;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import application.model.database.IMarketDB;
+import application.model.database.IPostDB;
+
+public class AnalysisService {
+	private IPostDB<?> postDB ;
+	private IMarketDB<?> marketDB;
+	
+	public AnalysisService(IPostDB<?> postDB, IMarketDB<?> marketDB ) {
+		this.postDB = postDB ;
+		this.marketDB = marketDB ;
+	}
+		
+	public  List<String> getAllPost(){
+		List<String> resultList = new ArrayList<String>() ;
+		for(APostModel post : db.getAllPost()) 	resultList.add( post.toString());
+		return resultList;
+	}
+	
+	
+}

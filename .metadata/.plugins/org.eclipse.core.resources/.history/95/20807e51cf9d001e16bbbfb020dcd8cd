@@ -1,0 +1,6 @@
+package application.controller;
+
+public class HotHashTag {
+	private String tag ;
+	private int count ;
+}

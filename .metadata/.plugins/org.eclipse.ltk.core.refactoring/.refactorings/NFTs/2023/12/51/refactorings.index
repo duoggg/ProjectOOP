@@ -1,0 +1,144 @@
+1702922424648	Delete element
+1702922679108	Delete element
+1702922701081	Move compilation unit
+1702922711908	Move compilation unit
+1702922730914	Move compilation unit
+1702929193553	Delete element
+1702929247965	Rename type 'AAllService'
+1702931644826	Delete element
+1702977592121	Delete element
+1702978477112	Delete element
+1703015602148	Extract local variable 'addAll'
+1703138230751	Delete element
+1703189482733	Rename type 'AnalysisService'
+1703190178490	Rename type 'AnalysisController'
+1703190212118	Rename type 'PostListController'
+1703190393207	Rename type 'Controller'
+1703190415320	Rename type 'GraphAndRecommendController'
+1703231334686	Move file
+1703231349423	Move file
+1703231784323	Move file
+1703233366136	Rename type 'ACrawler'
+1703244058453	Delete element
+1703244088499	Move compilation unit
+1703244104575	Move compilation unit
+1703252226414	Delete element
+1703253017477	Delete element
+1703253116444	Move compilation unit
+1703253275154	Rename compilation unit 'MyCrawler.java'
+1703253443391	Rename type 'AMyCrawler'
+1703254028036	Rename compilation unit 'Binance.java'
+1703255981207	Rename compilation unit 'IMyCrawler.java'
+1703256045639	Rename type 'IMarketCrawl'
+1703256076293	Rename compilation unit 'AMyCrawler.java'
+1703256100123	Move compilation unit
+1703256119990	Rename type 'MyDriverContext'
+1703277780119	Rename type 'OpenSea'
+1703278539146	Move compilation unit
+1703278560413	Delete element
+1703278606204	Rename type 'Twitter'
+1703282049986	Move compilation unit
+1703282063042	Move compilation unit
+1703282098572	Rename type 'BlogNFTICALLY'
+1703301263930	Move compilation unit
+1703301271781	Move compilation unit
+1703302745386	Move compilation unit
+1703302767955	Rename type 'AAMyCrawler'
+1703302862589	Rename type 'Test'
+1703302866629	Move compilation unit
+1703305062239	Rename type 'DBContext'
+1703305963478	Delete element
+1703307610540	Rename type 'AMarketModel'
+1703307644375	Rename type 'IMarketDB'
+1703307662557	Rename type 'ICollectionDAO'
+1703308353595	Rename type 'BlogCrawler'
+1703308386007	Rename type 'BlogModel'
+1703308405767	Rename type 'NFTicallyBlogModel'
+1703316162773	Rename package 'application.model.database'
+1703316238467	Rename package 'application.model'
+1703316541112	Move compilation unit
+1703316584427	Delete element
+1703316637846	Move compilation unit
+1703316645098	Move compilation unit
+1703316650999	Move compilation unit
+1703316657069	Move compilation unit
+1703316665350	Move compilation unit
+1703316704191	Delete element
+1703316844413	Rename type 'ListController'
+1703316866694	Rename type 'MyController'
+1703317406781	Delete element
+1703317487359	Move file
+1703317520061	Delete element
+1703317539527	Move file
+1703317547651	Delete element
+1703317556777	Move file
+1703317559814	Move file
+1703317563572	Move file
+1703317566009	Move file
+1703317568616	Move file
+1703317571480	Move file
+1703317576999	Move file
+1703317579517	Move file
+1703317619757	Delete element
+1703317732025	Move file
+1703317800305	Move file
+1703317806076	Move file
+1703317855059	Move file
+1703317856544	Move file
+1703317857818	Move file
+1703317859130	Move file
+1703317860502	Move file
+1703317862149	Move file
+1703317863439	Move file
+1703317864726	Move file
+1703317866156	Move file
+1703317867446	Move file
+1703317869823	Move file
+1703317877677	Move file
+1703317886872	Delete element
+1703317931324	Delete element
+1703318764911	Move file
+1703318769056	Move file
+1703318825972	Rename resource 'view.fxml'
+1703318837229	Rename resource 'itemList.fxml'
+1703319535433	Move file
+1703319549380	Move file
+1703319559137	Move compilation unit
+1703319621840	Move compilation unit
+1703319632513	Move compilation unit
+1703319717989	Move compilation unit
+1703319787121	Move compilation unit
+1703319978430	Move compilation unit
+1703319983566	Move compilation unit
+1703320011256	Move compilation unit
+1703320014424	Move compilation unit
+1703320017672	Move compilation unit
+1703320020385	Move compilation unit
+1703320023547	Move compilation unit
+1703323460289	Move compilation unit
+1703325681583	Rename resource 'crawl.fxml'
+1703326559831	Delete element
+1703326705253	Move compilation unit
+1703326716797	Delete element
+1703328321157	Rename type 'EdgeDriverContext'
+1703328354385	Rename type 'EdgeDriver'
+1703333448083	Move compilation unit
+1703333451902	Move compilation unit
+1703333457356	Move compilation unit
+1703333462433	Move compilation unit
+1703333466168	Move compilation unit
+1703333489819	Move compilation unit
+1703333495001	Move compilation unit
+1703333502135	Delete element
+1703333508927	Delete element
+1703333546413	Delete element
+1703333579082	Delete element
+1703333597263	Move compilation unit
+1703333602262	Move compilation unit
+1703333605269	Move compilation unit
+1703333608033	Move compilation unit
+1703333612941	Move compilation unit
+1703333686084	Move compilation unit
+1703333692453	Move compilation unit
+1703333699502	Delete element
+1703333703104	Delete element

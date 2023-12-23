@@ -1,0 +1,7 @@
+package application.controller.post;
+
+import application.controller.AMyController;
+
+public class ItemPostController extends AMyController {
+
+}

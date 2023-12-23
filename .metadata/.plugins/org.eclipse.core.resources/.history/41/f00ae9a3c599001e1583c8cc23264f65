@@ -1,0 +1,24 @@
+package application.model;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import application.model.database.IPostDB;
+
+public class SeePostService {
+	private IPostDB<?> db ;
+	
+	public SeePostService(IPostDB<?> db){
+		this.db = db ;
+	}
+	
+	public  List<String> getAllPost(){
+		List<String> resultList = new ArrayList<String>() ;
+		for(APostModel post : db.getAllPost()) {
+			
+			resultList.add( post.toString());
+		}
+		return resultList;
+	}
+	
+}

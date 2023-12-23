@@ -1,0 +1,14 @@
+package application.model.database;
+
+import java.util.List;
+
+public abstract class IAppDB<T> {
+	public static final DATABASE_CONNECTION{
+		Class.forName("com.mysql.jdbc.Driver");
+	}
+	   Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/tree","root","Tink60nhungle");
+	   Statement stmt=con.createStatement();
+	public abstract  List<T> getAll() ;
+	public abstract void delete() ;
+	public abstract void add() ;
+}

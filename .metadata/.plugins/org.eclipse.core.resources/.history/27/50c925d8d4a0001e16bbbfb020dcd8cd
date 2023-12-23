@@ -1,0 +1,13 @@
+package crawl;
+
+import java.util.List;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+public abstract class IMyCrawler {
+	
+	protected WebDriver driver ;
+	protected List<WebElement> elements ;
+	public abstract void saveAsJsonFile();
+}

@@ -1,0 +1,52 @@
+package application.service;
+
+import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import application.model.AMarketModel;
+import application.model.APostModel;
+import application.model.database.IMarketDB;
+import application.model.database.IPostDB;
+
+public class SeeCollectionService {
+
+	private IMarketDB<?> db;
+	private JSONArray result = new JSONArray() ;
+	
+	public SeeCollectionService (IPostDB<?> postDB, IMarketDB<?> marketDB ) {
+
+		this.marketDB = marketDB ;
+	}
+	public SeePostService(IPostDB<?> db ){
+		this.db = db ;
+		result = this.getAllPost();
+	}
+	
+	public SeePostService(IPostDB<?> db , String hashTag){
+		this.db = db ;
+		result  = this.getPostByHashtag(hashTag) ;
+	}
+	
+	private  JSONArray getAllCollection(){
+		JSONArray jsonArray = new JSONArray();
+		for(AMarketModel item : db.getAllColectionInDayAgo(1)){
+			JSONObject jsonObject = new JSONObject();
+			jsonObject.put("volume", item.getVolume());
+			jsonObject.put("rank", item.getRank());
+ 	        jsonArray.put(jsonObject);
+		}
+		return jsonArray ;
+	}
+	
+	private JSONArray getPostByName(String name){
+		JSONArray jsonArray = new JSONArray();
+		JSONObject jsonObject = new JSONObject(item);
+		AMarketModel item = db.getCollectionByNameInDayAgo(name,1) 	;{
+		jsonObject.put("volume", item.getVolume());
+		jsonObject.put("rank", item.getRank());
+		return jsonArray ;
+	}
+	}
+}

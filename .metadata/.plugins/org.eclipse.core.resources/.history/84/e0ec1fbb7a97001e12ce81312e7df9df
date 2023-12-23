@@ -1,0 +1,57 @@
+package ApplicationX;
+
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.geom.AffineTransform;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+
+public class Test {
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            JFrame frame = new JFrame("Rotate Image Example");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setSize(400, 400);
+
+            JPanel panel = new JPanel() {
+                /**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
+
+				@Override
+                protected void paintComponent(Graphics g) {
+                    super.paintComponent(g);
+
+                    Graphics2D g2d = (Graphics2D) g;
+
+                    // Load ảnh từ tệp hoặc nguồn khác
+                    ImageIcon icon = new ImageIcon("/images/dice1.png");
+                    Image image = icon.getImage();
+
+                    // Góc xoay (đổi dấu để xoay theo chiều kim đồng hồ)
+                    double angle = Math.toRadians(45);
+
+                    // Tính toán vị trí xoay
+                    int centerX = getWidth() / 2;
+                    int centerY = getHeight() / 2;
+
+                    // Tạo phép biến đổi xoay
+                    AffineTransform transform = new AffineTransform();
+                    transform.rotate(angle, centerX, centerY);
+
+                    // Áp dụng phép biến đổi và vẽ ảnh
+                    g2d.drawImage(image, transform, this);
+                }
+            };
+
+            frame.add(panel);
+            frame.setVisible(true);
+        });
+    }
+}
+

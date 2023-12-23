@@ -1,0 +1,19 @@
+package application.model;
+
+public class OpenSeaModel extends AMarketModel {
+	private int sales ;
+
+	public int getSales() {
+		return sales;
+	}
+
+	public void setSales(int sales) {
+		this.sales = sales;
+	}
+	
+	public public OpenSeaModel() {
+		super();
+		
+	}
+	
+}

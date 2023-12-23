@@ -1,0 +1,101 @@
+package test;
+
+import com.google.gson.Gson;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.*;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+
+import java.util.ArrayList;
+
+
+public class FirstDemo {
+	
+	public static void main(String[] args) throws InterruptedException {
+		
+		String query = "#art";
+		ArrayList<Tweet> listTweets = new ArrayList<Tweet>();
+		
+		System.setProperty("webdriver.edge.driver", "D:\\LINH\\Document\\BK\\20231\\OOP\\Source\\msedgedriver.exe");
+		
+		WebDriver driver = new EdgeDriver();
+		
+		driver.get("https://twitter.com/login");
+        driver.manage().window().maximize();
+        driver.manage().deleteAllCookies();
+        driver.manage().timeouts().pageLoadTimeout(40, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+
+		driver.findElement(By.xpath("//input[@name='text']")).sendKeys("Doraemo29925335");
+		Thread.sleep(1000);
+		driver.findElement(By.xpath("//span[contains(text(),'Next')]")).click();
+		Thread.sleep(1000);
+		driver.findElement(By.xpath("//input[@name='password']")).sendKeys("03102003");
+		Thread.sleep(1000);
+		driver.findElement(By.xpath("//span[contains(text(),'Log in')]")).click();
+		Thread.sleep(3000);
+		
+		driver.findElement(By.xpath("//input[@aria-label='Search query']")).sendKeys(query);
+		Thread.sleep(1000);
+		driver.findElement(By.xpath("//input[@aria-label='Search query']")).sendKeys(Keys.ENTER);
+		
+		WebDriverWait wait = new WebDriverWait(driver, 50);
+		listTweets.clear();
+        while (listTweets.size() <= 10) {	// Crawl 10 tweet
+            // Scroll xuống cuối trang
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            js.executeScript("window.scrollBy(0, 1000)");
+            Thread.sleep(3000);
+
+            // Đợi cho đến khi thêm bài viết mới xuất hiện (hoặc có thể sử dụng điều kiện khác)
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("a[aria-label*='ago']")));
+            
+            Tweet item = new Tweet();
+            // Lấy tên người dùng
+            WebElement usernameElement = driver.findElement(By.cssSelector("div[data-testid='User-Name'] > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > a:nth-child(1) > div:nth-child(1) > span:nth-child(1)"));
+            item.setAcount(usernameElement.getText());
+//            System.out.println("User: " + item.getAcount());
+            
+            // Lấy URL của tweet
+            WebElement postUrlElement = driver.findElement(By.cssSelector("div[data-testid='User-Name'] > div:nth-child(2) > div:nth-child(1) > div:nth-child(3) > a:nth-child(1)"));
+            item.setPostlUrl(postUrlElement.getAttribute("href"));
+//            System.out.println("Post URL: " + item.getPostlUrl());
+            
+            // Lấy Date created 
+            WebElement dateElement = driver.findElement(By.cssSelector("div[data-testid='User-Name'] > div:nth-child(2) > div:nth-child(1) > div:nth-child(3) > a:nth-child(1) > time:nth-child(1)"));
+            item.setDate(dateElement.getAttribute("datetime"));
+//            System.out.println("Date: " + item.getDate());
+            
+            // Lấy Title (bao gồm cả hashtag)
+            WebElement titleElement = driver.findElement(By.cssSelector("div[data-testid='tweetText']"));
+            item.setTitle(titleElement.getText());
+//            System.out.println("Title: " + item.getTitle());
+            
+            // Lấy Image URL
+            WebElement imageElement = driver.findElement(By.cssSelector("div[data-testid='tweetPhoto'] > img:nth-child(2)"));
+            item.setImageUrl(imageElement.getAttribute("src"));
+//            System.out.println("Image: " + item.getImageUrl());
+            
+            
+            listTweets.add(item);
+            
+        }
+        
+      //Chuyển listMobiles thành JSON text       
+        Gson gson = new Gson();
+        String jsonData = gson.toJson(listTweets);
+
+        System.out.println(jsonData);
+        for (int i = 0; i < listTweets.size(); i++){
+            System.out.println(i + " Title: " + listTweets.get(i).getAcount());
+        }
+		
+		driver.quit();
+
+
+        
+	}
+}

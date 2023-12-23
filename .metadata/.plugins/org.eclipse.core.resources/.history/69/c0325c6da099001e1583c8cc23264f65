@@ -1,0 +1,11 @@
+package application.model;
+
+import application.model.database.IPostDB;
+
+public class BlogModel extends APostModel {
+	private String title ;
+	private String describe ;
+	private String author ;
+	private String blogImage ;
+	
+}

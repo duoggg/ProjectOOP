@@ -1,0 +1,15 @@
+package crawl;
+
+import application.model.AMarketModel;
+
+public interface IMarketCrawl {
+	
+	public AMarketModel getCollection();
+	public int    getRankElement();
+	public String getNameElelement();
+	public String getVolumeElelement();
+	public String getPercentChangeElelement();
+	public String getFloorPriceElelement();
+	public String getDateElelement();
+
+}

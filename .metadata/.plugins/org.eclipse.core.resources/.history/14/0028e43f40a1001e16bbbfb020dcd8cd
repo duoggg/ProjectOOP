@@ -1,0 +1,14 @@
+package crawl;
+
+
+import org.openqa.selenium.WebDriver;
+
+
+public abstract class AAMyCrawler {
+	
+	protected WebDriver driver ;
+	public abstract void crawl();
+	public void saveAsJsonFile(String path) {
+		
+	};
+}

@@ -1,0 +1,9 @@
+package application.model.database;
+
+import application.model.AMarketModel;
+import application.model.APostModel;
+
+public class IMarketDB <T extends AMarketModel> {
+	
+	
+}

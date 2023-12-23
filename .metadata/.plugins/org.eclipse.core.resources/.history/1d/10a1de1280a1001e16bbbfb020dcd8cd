@@ -1,0 +1,18 @@
+package application.service;
+
+
+import crawl.crawler.AMyCrawler;
+
+public class CrawlService {
+	
+	private AMyCrawler crawl ;
+	
+	public CrawlService(AMyCrawler crawl) {
+		this.crawl = crawl ;
+	}
+	
+	public void crawlData() {
+		crawl.crawl();
+	}
+	
+}

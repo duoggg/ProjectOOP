@@ -1,0 +1,16 @@
+package crawl;
+
+
+import org.json.JSONArray;
+import org.openqa.selenium.WebDriver;
+
+
+public abstract class AAMyCrawler {
+	
+	protected WebDriver driver ;
+	protected JSONArray jdata  ;
+	public abstract void crawl();
+	public void saveAsJsonFile(String path) {
+		
+	};
+}

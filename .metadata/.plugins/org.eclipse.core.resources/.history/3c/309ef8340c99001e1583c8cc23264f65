@@ -1,0 +1,5 @@
+package application.controller;
+
+public interface ICallUrl<T extends MyController> {
+	public void call(String name, T controller) ;
+}

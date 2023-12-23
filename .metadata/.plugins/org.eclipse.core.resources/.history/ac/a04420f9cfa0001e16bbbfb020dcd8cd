@@ -1,0 +1,11 @@
+package crawl;
+import org.openqa.selenium.edge.EdgeDriver;
+
+public class EdgeDriverContext extends MyDriverContext{
+
+	public EdgeDriverContext() {
+		System.setProperty("webdriver.edge.driver", "E:\\NFTs\\NFTs\\lib\\msedgedriver.exe");
+		driver = new EdgeDriver() ;
+	}
+		
+}

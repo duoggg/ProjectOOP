@@ -1,0 +1,27 @@
+package application.controller.RecycleBin;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+import org.openqa.selenium.WebElement;
+
+import application.model.AMarketModel;
+import crawl.AAMyCrawler;
+
+public abstract class AMarketCrawl<T extends AMarketModel> extends AAMyCrawler  {
+	
+	public abstract T       getCollection (WebElement n);
+	public abstract int     getRank (WebElement n);
+	public abstract String  getName (WebElement n);
+	public abstract String  getVolume (WebElement n);
+	public abstract String  getPercentChange (WebElement n);
+	public abstract String  getFloorPrice (WebElement n);
+	
+	public String  getDate () {
+		 LocalDateTime currentDateTime = LocalDateTime.now();
+	     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+	     String DateTime = currentDateTime.format(formatter);
+	     return DateTime ;
+	}
+
+}

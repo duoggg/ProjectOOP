@@ -1,0 +1,16 @@
+package application.model;
+
+public abstract class BBlog extends APostModel{
+	private String title ;
+	private String describe ;
+
+	public BBlog(String author, String date, String tags, String postUrl, String imageUrl, String title, String describe) {
+		super(author, date, tags, postUrl, imageUrl);
+		this.title 		= title ;
+		this.describe 	= describe ;
+	}
+
+	public String getTitle() 	{ return title; }
+	public String getDescribe() { return describe; }
+
+}

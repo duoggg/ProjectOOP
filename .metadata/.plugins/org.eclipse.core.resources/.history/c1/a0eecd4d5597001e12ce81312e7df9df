@@ -1,0 +1,75 @@
+package Application;
+
+import java.util.ArrayList;
+import java.util.Random;
+
+import javafx.animation.RotateTransition;
+import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import javafx.util.Duration;
+
+public class Main extends Application{
+	
+	public static final int NUM_DICE = 1;
+	ArrayList<ImageView> diceArrayList = new ArrayList<ImageView>();
+	Random random = new Random();
+	
+	public int rollDice() {return random.nextInt(6) + 1;}
+	
+	public void start(Stage stage) {
+		GridPane gridPane = new GridPane();
+		gridPane.setPadding(new Insets(10,10,10,10));
+		gridPane.setVgap(30);
+		gridPane.setHgap(20);
+		
+		for (int i = 0; i < NUM_DICE; i++) {
+			ImageView iView = new ImageView(new Image("/images/dice" + rollDice() + ".png", 100, 0, true, true));
+			diceArrayList.add(i, iView);
+		}
+		
+		// Roll Button
+		Button roll = new Button("Roll");
+		Text numberRoll = new Text();
+		
+		roll.setOnAction(e -> {
+			for (int i = 0; i < NUM_DICE; i++) {
+				RotateTransition rt = new RotateTransition();
+				rt.setByAngle(360);
+				rt.setNode(diceArrayList.get(i));
+				rt.setDuration(Duration.millis(600));
+				rt.play();
+				int x = i;
+				int number = rollDice();
+				rt.setOnFinished(j -> diceArrayList.get(x).setImage(new Image("/images/dice" + number + ".png", 100, 0, true, true)));
+				numberRoll.setText(Integer.toString(number));
+				
+			}
+		});
+		
+		// add each dice node to gridpane
+		for (int i = 0; i < NUM_DICE; i++) {
+			gridPane.add(diceArrayList.get(i), i, 0);
+		}
+		gridPane.add(roll, 0, 1);
+		gridPane.setAlignment(Pos.CENTER);
+		
+		Scene scene = new Scene(gridPane, 200 + 110*NUM_DICE, 400);
+		stage.setTitle("GameXucsXacs");
+		stage.setScene(scene);
+		stage.show();
+	}
+
+	
+	public static void main(String[] args) {
+        launch(args);
+    }
+
+}

@@ -1,0 +1,85 @@
+package application.controller;
+
+import java.awt.TextField;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.ComboBox;
+import javafx.scene.layout.VBox;
+
+public class PostListController extends MyController {	
+	private static final String url = "application/PostList.fxml" ;
+	private List<String> p = new ArrayList<String>(); 
+	@FXML
+	private VBox root;
+	@FXML
+	private VBox showArea;
+	@FXML
+	private ComboBox<String> socialOption;
+	@FXML
+	private TextField search ;
+	
+	public VBox getRoot() {
+		return root ;
+	}
+	public PostListController() {
+		inItData() ;
+		loadView();
+		
+		ObservableList<String> options = FXCollections.observableArrayList("Twitter","Blog");
+	    socialOption.setItems(options);
+		
+	}
+	
+	public void inItData() {
+		//p = new ArrayList<String>();
+		p.add("chao") ;
+		p.add("xin") ;
+	}
+	
+	@FXML
+	void searchButtonPressed(ActionEvent event) throws IOException {
+		showArea.getChildren().clear();
+		p.add("hi");
+		
+		for(int i = 0;i < p.size() ;i++) {	
+			if(p.get(i).equals("hello")) {
+				ListController aController = new ListController() ;
+				aController.add(p.get(i), null, null);
+				aController.addAction();
+				showArea.getChildren().add(aController.getRoot());
+			}
+		}
+	}
+	
+	@Override
+	public void loadView() {
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource(url));
+		fxmlLoader.setController(this);
+	      try {
+	          root = fxmlLoader.load();
+	      } catch (IOException e) {
+	    	  e.printStackTrace();
+	      }
+			for(int i = 0;i < p.size() ;i++) {	
+				ListController aController = new ListController() ;
+				aController.add(p.get(i), null, null);
+				aController.addAction();
+				showArea.getChildren().add(aController.getRoot());	
+				
+			}
+	}
+	
+	 
+}
+
+
+		
+	
+

@@ -1,0 +1,135 @@
+package crawl;
+
+import com.google.gson.Gson;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.*;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+
+public class BlogCrawler {
+	
+	public static void main(String[] args) throws InterruptedException {
+		
+		ArrayList<Blog> listBlogs = new ArrayList<Blog>();
+		
+		System.setProperty("webdriver.edge.driver", "E:\\NFTs\\NFTs\\lib\\msedgedriver.exe");
+		
+		WebDriver driver = new EdgeDriver();
+		
+		driver.get("https://www.nftically.com/blog/");
+        driver.manage().window().maximize();
+        driver.manage().deleteAllCookies();
+        driver.manage().timeouts().pageLoadTimeout(40, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		
+		
+		WebDriverWait wait = new WebDriverWait(driver, 50);
+        while (true) {	
+
+            // Đợi cho đến khi thêm bài viết mới xuất hiện (hoặc có thể sử dụng điều kiện khác)
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("div[id*='post-']")));
+            Thread.sleep(3000);
+            List<WebElement> blogsElements = driver.findElements(By.cssSelector("div[id*='post-']"));
+            String checkDate = null;
+            
+        	for (WebElement b : blogsElements) {
+        		Blog item = new Blog();
+        		
+        		// Lấy Datetime của Blog
+        		WebElement dateElement = b.findElement(By.cssSelector("div[class='blog-date'] > ul:nth-child(1) > li:nth-child(1)"));
+        		checkDate = dateElement.getText();
+        		if (!checkDate.contains("2023")) continue;
+        		item.setDate(checkDate);
+//        		item.setDate(dateElement.getText());
+        		System.out.println("Date: " + item.getDate());
+        		
+        		// Lấy Title của Blog 
+        		WebElement titleElement = b.findElement(By.className("blog-title"));
+        		item.setTitle(titleElement.getText());
+        		System.out.println("Title: " + item.getTitle());
+        		
+        		// Lấy URL của Blog
+        		WebElement blogURLElement = titleElement.findElement(By.cssSelector("a:nth-child(1)"));
+        		item.setBlogURL(blogURLElement.getAttribute("href"));
+        		System.out.println("URL: " + item.getBlogURL());
+        		
+        		// Lấy Image của Blog 
+        		WebElement imgElement = b.findElement(By.cssSelector("div[class*='image'] > a:nth-child(1) > img:nth-child(1)"));
+        		item.setBlogImage(imgElement.getAttribute("src"));
+        		System.out.println("Image: " + item.getBlogImage());
+        		
+        		// Lấy Describe của Blog
+        		WebElement describElement = b.findElement(By.cssSelector("div[class='blog-info'] > p:nth-child(3)"));
+        		item.setDescribe(describElement.getText());
+        		System.out.println("Describe: " + item.getDescribe());
+        		
+        		// Lấy Author của Blog
+        		WebElement authorElement = b.findElement(By.cssSelector("div[class='author'] > a:nth-child(1) > span:nth-child(2)"));
+        		item.setAuthor(authorElement.getText());
+        		System.out.println("Author: " + item.getAuthor());
+        		
+        		// Lấy Tag của Blog
+        		String classNameString = b.getAttribute("class");
+        			// Tách các từ trong chuỗi
+                String[] words = classNameString.split("\\s+");
+                for (String word : words) {
+                    if (word.contains("tag")) {
+                    	word = word.substring(4);
+                    	if (item.getTag() == null) item.setTag(word);
+                    	else item.setTag(item.getTag() + " " + word);
+                    }
+                }
+                System.out.println("Tag: " + item.getTag());
+                System.out.println("\n");
+                listBlogs.add(item);
+        		
+        	}
+        	if (!checkDate.contains("2023")) break;
+        	// Chuyển trang
+        	try {
+        		WebElement nextPageElement = driver.findElement(By.cssSelector("a[aria-label='Next Page']"));
+            	driver.get(nextPageElement.getAttribute("href"));
+        		Thread.sleep(3000);
+			} catch (Exception e) {
+				// TODO: handle exception
+				break;
+			}
+        }
+        
+      //Chuyển listBlog thành JSON text       
+        Gson gson = new Gson();
+        String jsonData = gson.toJson(listBlogs);
+        
+      //Write JSON file
+        try (FileWriter file = new FileWriter("blog.json")) {
+        	
+        	file.write(jsonData);
+        	file.flush();
+			
+		} catch (IOException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+
+        System.out.println(jsonData);
+        for (int i = 0; i < listBlogs.size(); i++){
+            System.out.println(i + " Blog: " + listBlogs.get(i).getBlogURL());
+        }
+		
+		driver.quit();
+
+
+        
+	}
+}
+
+
+

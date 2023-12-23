@@ -1,0 +1,68 @@
+package application.controller;
+
+import java.io.IOException;
+
+import application.controller.analysis.SeeCollectionController;
+import application.controller.hashtag.HotHashtagController;
+import application.controller.home.HomeController;
+import application.controller.post.SeePostController;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.layout.VBox;
+
+public class BaseController  implements ICallUrl {
+	
+	private static final String URL = "application/view/Base.fxml" ;
+	@FXML
+    private VBox main;
+	
+	public VBox getRoot() {
+		return main;
+	}
+	 public BaseController() {
+		
+	}
+	 
+	@FXML
+	public void TrangChu(ActionEvent event) {
+		moveTo("Trang chủ");
+	}
+	
+	@FXML
+	public void XemDanhSach(ActionEvent event) throws IOException {
+		moveTo("Danh sách bài viết");
+	}
+	
+	@FXML
+	public void TimHotHashtag(ActionEvent event) throws IOException {
+		moveTo("Tìm hashtag hot nhất");
+	}
+	
+	@FXML
+	public void PhanTich(ActionEvent event) throws IOException {
+		moveTo("Phân tích tương quan");
+	}
+	
+	@FXML
+	public void Crawl(ActionEvent event) throws IOException {
+		moveTo("Phân tích tương quan");
+	}
+	
+	public void moveTo(String name) {
+		switch (name) {
+		case "Trang chủ"			: call( new HomeController())		    ; break ;
+		case "Danh sách bài viết"	: call( new SeePostController())	    ; break ;
+		case "Tìm hashtag hot nhất"	: call( new HotHashtagController())	    ; break ;
+		case "Phân tích tương quan"	: call( new SeeCollectionController())	; break ;
+		default:
+			throw new IllegalArgumentException("Unexpected value: " + name);
+		}
+		
+	}
+	
+	@Override
+	public void call(AMyController controller) {
+		main.getChildren().clear();
+		main.getChildren().add(controller.getRoot()); 
+	}
+}

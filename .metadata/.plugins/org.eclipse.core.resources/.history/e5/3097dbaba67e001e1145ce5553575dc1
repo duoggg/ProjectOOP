@@ -1,0 +1,12 @@
+package test;
+
+public class Tweet {
+	private String acount;
+	private String date;
+	private String hashtag;
+	private String imageUrl;
+	private String postlUrl;
+	private int view;
+	private int like;
+	
+}

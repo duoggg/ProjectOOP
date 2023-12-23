@@ -1,0 +1,101 @@
+package application.controller;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.imageio.metadata.IIOMetadataController;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import com.mysql.cj.xdevapi.JsonArray;
+
+import application.model.HotHashTagService;
+import application.model.database.TwitterDB;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.ComboBox;
+import javafx.scene.layout.VBox;
+
+public class HotHashtagController extends MyController{
+	
+	private JSONArray data = new JSONArray(); 
+	private static final String url = "application/HotHashtag.fxml" ;
+	@FXML
+	private VBox root;
+	@FXML
+	private VBox showArea;
+	@FXML
+	private ComboBox<String> socialOption;
+	@FXML
+	private ComboBox<String> timeOption;
+	public VBox getRoot() {
+		return root ;
+	}
+	
+	public HotHashtagController() {
+		loadView();
+	}
+	
+	@FXML
+	void searchButtonPressed(ActionEvent event) throws IOException {
+		if(socialOption.getValue() == null) {
+			ListController aController = new ListController() ;
+			aController.add("Xin lỗi bạn đã chọn sai", null,null);
+			showArea.getChildren().add(aController.getRoot());
+		} else {
+		
+			loadData(timeOption.getValue(), socialOption.getValue()) ;
+			showArea.getChildren().clear();		
+			for(int i = 0; i < data.length() ;i++) {	
+				ListController aController = new ListController() ;
+				//String[] field = data.get(i).split(",");
+				JSONObject jsonObject = data.getJSONObject(i);
+				aController.add(jsonObject.getString("Hashtag"),Integer.toString(jsonObject.getInt("Number"), null);
+				aController.add(jsonObject.getString("Hashtag"), Integer.toString(jsonObject.getInt("Number"), null);
+				showArea.getChildren().add(aController.getRoot());
+			}				
+		}
+		
+	}
+	
+	@Override
+	public void loadView() {
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource(url));
+		fxmlLoader.setController(this);
+	      try {
+	          root = fxmlLoader.load();
+	      } catch (IOException e) {
+	    	  e.printStackTrace();
+	      }
+	     ObservableList<String> options = FXCollections.observableArrayList("Twitter","Blog");
+		 socialOption.setItems(options);
+		      
+		 ObservableList<String> time = FXCollections.observableArrayList("24H","1W","1M");
+		 timeOption.setItems(time);
+	}
+	
+	private void loadData(String time, String social) {
+		if(social.equals("Twitter")) {
+			switch(time) {
+				case "24H" : data = (new HotHashTagService(new TwitterDB())).getByDay()   ; break ;
+				case "1W" :  data = (new HotHashTagService(new TwitterDB())).getByWeek()  ; break ;
+				case "1M" :  data = (new HotHashTagService(new TwitterDB())).getByMonth() ; break ;
+				default   :  data = (new HotHashTagService(new TwitterDB())).getAll()     ; break ;
+			}
+			
+		} else if(social.equals("Blog")) {
+			switch(time) {
+				case "24H" : data = (new HotHashTagService(new TwitterDB())).getByDay()   ; break ;
+				case "1W" :  data = (new HotHashTagService(new TwitterDB())).getByWeek()  ; break ;
+				case "1M" :  data = (new HotHashTagService(new TwitterDB())).getByMonth() ; break ;
+				default   :  data = (new HotHashTagService(new TwitterDB())).getAll()     ; break ;
+			}
+		}
+		
+ 	}
+}

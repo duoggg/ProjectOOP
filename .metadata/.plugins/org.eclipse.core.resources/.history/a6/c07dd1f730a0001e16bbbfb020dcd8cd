@@ -1,0 +1,85 @@
+package application.controller;
+
+import java.io.IOException;
+
+import org.json.JSONArray;
+
+import application.model.database.OpenSeaDB;
+import application.model.database.TwitterDB;
+import application.service.AnalysisService;
+import application.service.RecommendPostService;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+
+public class Controller extends MyController {
+	
+	private static final String URL = "application/view.fxml" ;
+	@FXML
+	private VBox root;
+    @FXML
+    private CategoryAxis xAxis;
+    @FXML
+    private NumberAxis yAxis;
+    @FXML
+    private VBox showArea;
+    @FXML
+    private Text text1;
+    
+    @FXML
+    private LineChart<String,Integer> chart ;
+    
+	public Controller(String name, String url, int... d1) {
+		loadView();
+		yAxis.setAutoRanging(false); // Tắt tự động điều chỉnh
+        yAxis.setLowerBound(0);       // Giá trị tối thiểu
+        yAxis.setUpperBound(600);     // Giá trị tối đa
+
+        // Thiết lập đơn vị chia trục tung
+        yAxis.setTickUnit(200);  // Đơn vị là 10
+		XYChart.Series<String,Integer> series = new XYChart.Series<>();
+		
+		for(int i = d1.length/2; i > 0 ; i--) {
+			 series.getData().add(new XYChart.Data<>(i + " day ago" , d1[i-1] ));
+		}
+		XYChart.Series<String,Integer> series2 = new XYChart.Series<>();
+		for(int i = d1.length ; i > d1.length/2  ; i--) {
+			 series2.getData().add(new XYChart.Data<>((i - d1.length/2) + " day ago" , d1[i-1] ));
+		}
+        chart.getData().addAll(series,series2);
+        showArea.getChildren().add(text1) ;
+        text1.setText(url);
+    }
+	
+	@Override
+	public VBox getRoot() {
+		return root;
+	}
+
+	@Override
+	public void loadView() {
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource(URL));
+		fxmlLoader.setController(this);
+	      try {
+	          root = fxmlLoader.load();
+	      } catch (IOException e) {
+	    	  e.printStackTrace();
+	      }
+	}
+	
+	public void loadData(String market, String ma,String name) {
+		 JSONArray  data = new JSONArray();
+				
+		 if     (market.equals("OpenSea"))   { RecommendPostService option = new AnalysisService(new TwitterDB(), new OpenSeaDB()) ;
+		 										data =  option.getReccomendPost(name)  ; }
+		 else if(market.equals("Binance"))   { RecommendPostService option = new AnalysisService(new TwitterDB(), new OpenSeaDB()) ;
+			  									data =  option.getReccomendPost(name)  ; }
+		 
+	}
+}

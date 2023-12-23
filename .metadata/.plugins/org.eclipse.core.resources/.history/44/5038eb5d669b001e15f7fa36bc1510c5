@@ -1,0 +1,51 @@
+package application.model;
+
+public class AMarketModel {
+	private int rank ;
+	private String name ;
+	private String volume ;
+	private String percentChange ;
+	private String floorPrice ;
+	private String date ;
+	
+	public int getRank() {
+		return rank;
+	}
+	public void setRank(int rank) {
+		this.rank = rank;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getVolume() {
+		return volume;
+	}
+	public void setVolume(String volume) {
+		this.volume = volume;
+	}
+	public String getPercentChange() {
+		return percentChange;
+	}
+	public void setPercentChange(String percentChange) {
+		this.percentChange = percentChange;
+	}
+	public int getFloorPrice() {
+		return floorPrice;
+	}
+	public void setFloorPrice(int floorPrice) {
+		this.floorPrice = floorPrice;
+	}
+	public String getDate() {
+		return date;
+	}
+	public void setDate(String date) {
+		this.date = date;
+	}
+	
+	
+	
+
+}

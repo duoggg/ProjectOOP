@@ -1,0 +1,10 @@
+package application.model.database;
+
+import java.sql.Connection;
+
+import org.openqa.selenium.WebDriver;
+
+public abstract class AMyDatabase {
+	protected Connection connection;
+	public abstract Connection getConnection() ;
+}

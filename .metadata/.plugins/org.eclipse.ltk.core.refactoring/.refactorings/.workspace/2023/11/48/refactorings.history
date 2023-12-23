@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Delete resource &apos;DemoJavaFX/src/application/GUI.fxml&apos;" deleteContents="false" description="Delete resource &apos;DemoJavaFX/src/application/GUI.fxml&apos;" element1="/DemoJavaFX/src/application/GUI.fxml" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1701271987233"/>
+</session>

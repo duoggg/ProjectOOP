@@ -1,0 +1,26 @@
+package application.controller.RecycleBin;
+
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.layout.VBox;
+
+private class ListController {
+	
+	@FXML
+	private VBox root;
+	
+	public VBox getRoot() {
+		return root;
+	} 
+	
+	public ListController() {
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("application/itemList.fxml"));
+		fxmlLoader.setController(this);
+
+      try {
+          root = fxmlLoader.load();
+      } catch (Exception exception) {
+          throw new RuntimeException(exception);
+      }
+	}
+}

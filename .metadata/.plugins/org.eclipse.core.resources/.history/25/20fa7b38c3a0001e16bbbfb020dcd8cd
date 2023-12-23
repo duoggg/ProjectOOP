@@ -1,0 +1,182 @@
+package crawl;
+
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import com.google.gson.Gson;
+
+public class Binance extends DriverContext{
+	private static final String URL = "https://www.binance.com/en/nft/ranking?tab=trend" ;
+	private ArrayList<BinanceNFT> listCollection = new ArrayList<BinanceNFT>();
+	public Binance() {
+		super() ;
+		driver.get(URL);
+        driver.manage().window().maximize();
+        driver.manage().deleteAllCookies();
+        driver.manage().timeouts().pageLoadTimeout(40, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+	}
+	
+	public void crawl() {
+		LocalDateTime currentDateTime = LocalDateTime.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+	    String DateTime = currentDateTime.format(formatter);
+	    
+	    try {
+        	driver.findElement(By.xpath("//button[contains(text(),'Accept')]")).click();
+            Thread.sleep(3000);
+            
+            WebDriverWait wait = new WebDriverWait(driver, 50);
+    	    wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("a[href*='/collection/']")));
+            Thread.sleep(3000);
+            List<WebElement> nftElements = driver.findElements(By.cssSelector("a[href*='/collection/']"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	    
+	    
+	}
+	public static void main(String[] args) throws InterruptedException {
+		
+	//	ArrayList<BinanceNFT> listCollection = new ArrayList<BinanceNFT>();
+		
+		// Lấy ngày và giờ hiện tại
+        LocalDateTime currentDateTime = LocalDateTime.now();
+
+        // Định dạng ngày và giờ theo ý muốn (ví dụ: yyyy-MM-dd HH:mm:ss)
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String DateTime = currentDateTime.format(formatter);
+		
+//		System.setProperty("webdriver.edge.driver", "E:\\NFTs\\NFTs\\lib\\msedgedriver.exe");
+		
+//		WebDriver driver = new EdgeDriver();
+//		
+//		driver.get("https://www.binance.com/en/nft/ranking?tab=trend");
+//        driver.manage().window().maximize();
+//        driver.manage().deleteAllCookies();
+//        driver.manage().timeouts().pageLoadTimeout(40, TimeUnit.SECONDS);
+//        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+        
+//        try {
+//        	driver.findElement(By.xpath("//button[contains(text(),'Accept')]")).click();
+//            Thread.sleep(3000);
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//		}
+		
+//		WebDriverWait wait = new WebDriverWait(driver, 50);
+//		JavascriptExecutor js = (JavascriptExecutor) driver;
+		
+		// Đợi cho đến khi thêm bài viết mới xuất hiện (hoặc có thể sử dụng điều kiện khác)
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("a[href*='/collection/']")));
+        Thread.sleep(3000);
+        List<WebElement> nftElements = driver.findElements(By.cssSelector("a[href*='/collection/']"));
+   
+        
+        for (WebElement n : nftElements) {
+        	BinanceNFT item = new BinanceNFT();
+        	
+//        	// Get rank
+        	int rank ;
+        	WebElement rankElement = n.findElement(By.cssSelector("div:nth-child(1) > div:nth-child(1)"));
+        	if (rankElement.getText().equals("")) {
+	        		WebElement rankSpecial = n.findElement(By.cssSelector("div:nth-child(1) > div:nth-child(1) > span:nth-child(1) > img:nth-child(1)"));
+	        		String     rankSrc     = rankSpecial.getAttribute("src");
+	        		if (rankSrc.contains("first_iii"))       rank = 1;
+	        		else if (rankSrc.contains("second_iii")) rank = 2;
+	        		else 									 rank = 3;
+        	}
+        	else    rank =  Integer.parseInt(rankElement.getText());
+            System.out.println("Rank: " + rank);
+//        	
+//            
+            // Get name collection
+            String nameCollection ;
+            WebElement collectionElement = n.findElement(By.cssSelector("div:nth-child(1) div:nth-child(3) div:nth-child(1) div:nth-child(1)"));
+            nameCollection = collectionElement.getText();
+            System.out.println("Collection: " + nameCollection);
+//            Thread.sleep(500);
+            
+            // Get volume
+            String volume ;
+            WebElement volumeElement = n.findElement(By.cssSelector("div:nth-child(2) > div:nth-child(1) > div:nth-child(1)"));
+            nameCollection = volumeElement.getText();
+            System.out.println("Collection: " + nameCollection);
+//            Thread.sleep(500);
+            
+            // Get percentChange
+            WebElement percentElement = n.findElement(By.cssSelector("div:nth-child(3) > div:nth-child(1) > div:nth-child(1)"));
+            item.setPercentChange(percentElement.getText());
+            System.out.println("%Change: " + item.getPercentChange());
+//            Thread.sleep(500);
+            
+            // Get Floor Price
+            WebElement priceElement = n.findElement(By.cssSelector("div:nth-child(4) > div:nth-child(1) > div:nth-child(1)"));
+            item.setFloorPrice(priceElement.getText());
+            System.out.println("Floor Price: " + item.getFloorPrice());
+//            Thread.sleep(500);
+            
+            // Get Owners
+            WebElement ownersElement = n.findElement(By.cssSelector("div:nth-child(6)"));
+            String ownerString = ownersElement.getText();
+            if (ownerString.contains(",")) {
+            	ownerString = ownerString.replace(",", "");
+            	item.setOwners(Integer.parseInt(ownerString));
+            }
+            else if(!ownerString.equals("--")) item.setOwners(Integer.parseInt(ownerString)); 
+            System.out.println("Owners: " + item.getOwners());
+            
+         // Get Items
+            WebElement itemsElement = n.findElement(By.cssSelector("div:nth-child(7)"));
+            String itemString = itemsElement.getText();
+            if (itemString.contains(",")) {
+            	itemString = itemString.replace(",", "");
+            	item.setItems(Integer.parseInt(itemString));
+            }
+            else if(!itemString.equals("--")) item.setItems(Integer.parseInt(itemString)); 
+            System.out.println("Items: " + item.getItems());
+            System.out.println("\n");
+            
+            // Set Date
+            item.setDate(DateTime);
+
+
+            listCollection.add(item);
+//            Thread.sleep(500);
+            
+        }
+		
+		//Chuyển listCollection thành JSON text       
+        Gson gson = new Gson();
+        String jsonData = gson.toJson(listCollection);
+        
+//      //Write JSON file
+        try (FileWriter file = new FileWriter("binance(12).json")) {
+        	
+        	file.write(jsonData);
+        	file.flush();
+			
+		} catch (IOException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+
+        System.out.println(jsonData);
+        for (int i = 0; i < listCollection.size(); i++){
+            System.out.println("#" + listCollection.get(i).getRank() + " " + listCollection.get(i).getCollection());
+        }
+		driver.quit();
+	}
+}

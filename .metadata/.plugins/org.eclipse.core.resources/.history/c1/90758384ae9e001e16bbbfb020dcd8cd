@@ -1,0 +1,79 @@
+package application.controller;
+
+import java.io.IOException;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+
+import application.model.database.OpenSeaDB;
+import application.model.database.TwitterDB;
+import application.service.AnalysisService;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+//import application.controller.RecycleBin.ListMoreController;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.ComboBox;
+import javafx.scene.layout.VBox;
+
+public class AnalysisController extends MyController {
+	
+	private static final String url = "application/Analysis.fxml" ;
+	private JSONArray data = new JSONArray(); 
+	private AnalysisService option1 =  new AnalysisService(new TwitterDB(), new OpenSeaDB()) ;
+	private AnalysisService option2 =  new AnalysisService(new TwitterDB(), new OpenSeaDB()) ;
+	@FXML
+	private VBox root;
+	@FXML
+	private VBox showArea;
+	@FXML
+	private ComboBox<String> marketplace;
+	public VBox getRoot() {
+		return root ;
+	}
+	public AnalysisController() {
+		loadView();
+		
+		ObservableList<String> options = FXCollections.observableArrayList("OpenSea","Binance");
+	    marketplace.setItems(options);
+	   
+	}
+	
+	@FXML
+	void searchButtonPressed(ActionEvent event) {
+		if(marketplace.getValue() == null) {
+			ListController aController = new ListController() ;
+			aController.add("Xin lỗi bạn đã chọn sai", null,null);
+			showArea.getChildren().add(aController.getRoot());
+		} else {
+		
+			loadData(marketplace.getValue()) ;
+			showArea.getChildren().clear();		
+			for(int i = 0; i < data.length() ;i++) {	
+				ListController aController = new ListController() ;
+				JSONObject jsonObject = data.getJSONObject(i);
+				aController.add(jsonObject.getString("name"),null,null);
+				showArea.getChildren().add(aController.getRoot());
+			}				
+		}
+	}
+	
+	@Override
+	public void loadView() {
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource(url));
+		fxmlLoader.setController(this);
+	      try {
+	          root = fxmlLoader.load();
+	      } catch (IOException e) {
+	    	  e.printStackTrace();
+	      }
+	}
+	
+	private void loadData(String market) {
+		if     (market.equals("OpenSea"))   { data =  option1.getCollectionName() ; }
+		else if(market.equals("Binance"))   { data =  option1.getResult() ; }
+		
+	}
+}

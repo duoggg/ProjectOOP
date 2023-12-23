@@ -1,0 +1,42 @@
+package application.service;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import application.model.AMarketModel;
+
+import application.model.database.IMarketDB;
+
+
+public class SeeCollectionService {
+
+	private IMarketDB<?> db;
+	
+	public SeeCollectionService(IMarketDB<?> db ){
+		this.db = db ;
+	}
+	
+	public  JSONArray getAllCollectionInPreviousDay(){
+		JSONArray jsonArray = new JSONArray();
+		for(AMarketModel item : db.getAllColectionInDayAgo(1)){
+			JSONObject jsonObject = new JSONObject();
+			jsonObject.put("name", item.getName());
+			jsonObject.put("volume", item.getVolume());
+			jsonObject.put("rank", item.getRank());
+ 	        jsonArray.put(jsonObject);
+		}
+		return jsonArray ;
+	}
+	
+	public JSONArray getCollectionByNameInPreviousDay(String name){
+		JSONArray jsonArray = new JSONArray();
+		for(AMarketModel item : db.getCollectionByNameInDayAgo(name, 1)){
+			JSONObject jsonObject = new JSONObject();
+			jsonObject.put("name", item.getName());
+			jsonObject.put("volume", item.getVolume());
+			jsonObject.put("rank", item.getRank());
+ 	        jsonArray.put(jsonObject);
+		}
+		return jsonArray ;
+	}
+}

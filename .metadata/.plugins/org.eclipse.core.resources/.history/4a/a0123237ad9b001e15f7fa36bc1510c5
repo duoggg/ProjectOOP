@@ -1,0 +1,60 @@
+package application.model;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import application.model.database.IMarketDB;
+import application.model.database.IPostDB;
+
+public class AnalysisService {
+	private IPostDB<?> postDB ;
+	private IMarketDB<?> marketDB;
+	
+	public AnalysisService(IPostDB<?> postDB, IMarketDB<?> marketDB ) {
+		this.postDB = postDB ;
+		this.marketDB = marketDB ;
+	}
+		
+	public  List<String> getCollectionWithNumberOfTagIn5Day(){
+		List<String> resultList = new ArrayList<String>() ;
+		
+		for(String name : marketDB.getAllCollectionName()) {
+			String c = new String(name) ;
+			for(int i = 1 ; i <= 2 ; i++) {
+			for (AMarketModel collection : marketDB.getCollectionInDayAgo(name, i)) {
+				int volumeInt = convertToInt(removeLetters(collection.getVolume()));
+					c = c + "," + volumeInt;
+				}	
+			}
+		}	
+		return resultList;
+		
+	}
+	
+	private static String removeLetters(String input) {
+        StringBuilder numericStringBuilder = new StringBuilder();
+
+        for (char c : input.toCharArray()) {
+            if (Character.isDigit(c)) {
+                numericStringBuilder.append(c);
+            }
+        }
+
+        return numericStringBuilder.toString();
+    }
+
+    private static int convertToInt(String numericString) {
+        // Nếu chuỗi rỗng sau khi loại bỏ kí tự chữ, trả về giá trị mặc định là 0
+        if (numericString.isEmpty()) {
+            return 0;
+        }
+
+        try {
+            return Integer.parseInt(numericString);
+        } catch (NumberFormatException e) {
+            System.err.println("Không thể chuyển đổi chuỗi thành số nguyên.");
+            e.printStackTrace();
+            return 0;
+        }
+    }
+}

@@ -1,0 +1,53 @@
+package application.controller.RecycleBin;
+
+import java.io.IOException;
+
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
+import javafx.scene.layout.VBox;
+
+private class ListMoreController {
+	@FXML
+	private VBox root;
+	
+	public VBox getRoot() {
+		return root;
+	} 
+	
+	@FXML
+	private VBox postDetail;
+	@FXML
+	private Button detailButton;
+	@FXML
+	private VBox detail;
+
+	public ListMoreController() {
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("application/itemListMore.fxml"));
+//      fxmlLoader.setRoot(this);
+      fxmlLoader.setController(this);
+
+      try {
+          root = fxmlLoader.load();
+      } catch (Exception exception) {
+          throw new RuntimeException(exception);
+      }
+	}
+	
+	@FXML
+	void toggleButtonDetail(ActionEvent event) throws IOException {
+	
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("application/detail.fxml"));
+		detail = fxmlLoader.load();
+		String status = detailButton.getText();
+		if (status.equals("Chi tiết")) {
+			postDetail.getChildren().add(detail);
+			detailButton.setText("Thu gọn");
+		}
+		else if (status.equals("Thu gọn")) {
+			postDetail.getChildren().clear();
+			detailButton.setText("Chi tiết");
+		}
+	}
+}

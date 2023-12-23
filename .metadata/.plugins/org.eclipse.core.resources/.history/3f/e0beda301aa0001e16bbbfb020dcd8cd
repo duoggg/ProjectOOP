@@ -1,0 +1,13 @@
+package application.service;
+
+import org.json.JSONArray;
+
+import application.model.database.IMarketDB;
+import application.model.database.IPostDB;
+
+public class RecommendPostService {
+	private IPostDB<?> postDB ;
+	private IMarketDB<?> marketDB;
+	private static final int NUMBEROFPLOT = 4 ;
+	private JSONArray result = new JSONArray() ;
+}

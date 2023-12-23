@@ -1,0 +1,67 @@
+package ApplicationX;
+
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.Random;
+
+import javax.swing.*;
+  
+    
+public class BoxGame  {    
+  
+	JFrame frameObj;    
+	public static final int NUM_DICE = 1;
+	ArrayList<ImageView> diceArrayList = new ArrayList<ImageView>();
+	Random random = new Random();
+	
+	public int rollDice() {return random.nextInt(6) + 1;}
+	  
+	// constructor  
+		BoxGame()  {    
+	frameObj = new JFrame();    
+	    
+	// setting the grid layout   
+	// a 3 * 3 grid is created with the horizontal gap 20   
+	// and vertical gap 25  
+	frameObj.setLayout(new GridLayout(2, 2, 20, 25));    
+	frameObj.setSize(300, 300);    
+	frameObj.setVisible(true);    
+	
+	for (int i = 0; i < NUM_DICE; i++) {
+		ImageView iView = new ImageView(new Image("/images/dice" + rollDice() + ".png", 100, 0, true, true));
+		diceArrayList.add(i, iView);
+	}
+	
+	// Roll Button
+	Button roll = new Button("Roll");
+	Text numberRoll = new Text("");
+	
+	roll.setOnAction(e -> {
+		for (int i = 0; i < NUM_DICE; i++) {
+			RotateTransition rt = new RotateTransition();
+			rt.setByAngle(360);
+			rt.setNode(diceArrayList.get(i));
+			rt.setDuration(Duration.millis(600));
+			rt.play();
+			int x = i;
+			int number = rollDice();
+			rt.setOnFinished(j -> diceArrayList.get(x).setImage(new Image("/images/dice" + number + ".png", 100, 0, true, true)));
+			numberRoll.setText(Integer.toString(number));
+		}
+	});
+	
+	// add each dice node to gridpane
+	for (int i = 0; i < NUM_DICE; i++) {
+		frameObj.add(diceArrayList.get(i), i, 0);
+	}
+	gridPane.add(roll, 0, 1);
+	gridPane.add(numberRoll, 0, 2);
+	gridPane.setAlignment(Pos.CENTER);
+	}  
+		
+	// main method  
+	public static void main(String argvs[])   
+	{    
+	new BoxGame();    
+	}    
+}    

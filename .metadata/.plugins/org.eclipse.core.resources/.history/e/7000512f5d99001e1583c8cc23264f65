@@ -1,0 +1,12 @@
+package application.model;
+
+import application.model.database.IAppDB;
+import application.model.database.TwitterDB;
+
+public class TwitterRepository {
+	 private TwitterDB db;
+	 public TwitterRepository(IAppDB db) {
+		 this.db = db ;
+	 }
+	 
+}
